@@ -1,0 +1,10 @@
+{% extends "EchyzenNewsBundle::layout.html.twig" %}
+
+{% block echyzen_news_body %}
+	<h2>{{ new.titre }}</h2>
+	<p>Ecrit le  {{ new.date|date('d/m/Y à  H\hi') }}</p>
+	<p><img title="{{ new.rubrique }}" alt="{{ new.rubrique }}" src="{{ asset( '../src/Echyzen/NewsBundle/Ressources/public/images/' ~ new.rubrique ~ '.png')}}" style="float:left; margin-right: 15px;" />
+	<span style="text-align: center;">
+		{{  new.contenu|raw|nl2br }}
+	</span></p><hr />
+{% endblock %}

@@ -1,0 +1,8 @@
+echyzen_news:
+    resource: "@EchyzenNewsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+sdz_blog:
+    resource: "@SdzBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+

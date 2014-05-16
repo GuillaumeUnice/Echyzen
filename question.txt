@@ -1,0 +1,2 @@
+Différence entre $this->ma_var et $ma_var?
+Exemple dans l'utilisation du caonteneur de service accessible que par $this->ma_var
