@@ -55,9 +55,15 @@ class News
 	*/
 	private $publication;
 
+    /**
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="article")
+    */
+    private $commentaires;
+
 	public function __construct()
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
 
     /**
@@ -183,5 +189,38 @@ class News
     public function getPublication()
     {
         return $this->publication;
+    }
+
+    /**
+     * Add commentaires
+     *
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     * @return News
+     */
+    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires[] = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
     }
 }

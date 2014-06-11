@@ -1,16 +1,7 @@
 $(document).ready(function(){
-	//			Animation du logo
-	$('#signature').mouseover(function() {
 
-		$(this).css({ WebkitTransform: 'rotateZ(360deg)',
-		WebkitTransition: 'all 5s ease'});
-	});
-	$('#signature').mouseleave(function() {
-		$(this).stop().css({ WebkitTransform: 'rotateZ(0deg)',
-		WebkitTransition: 'all 5s ease'});
-	});
 	
-	//			Animation du footer
+	//	Animation du footer
 	setInterval(function() {
 		rond1(); rond2(); rond3(); rond4(); rond5(); rond6();
 	}, 1000);

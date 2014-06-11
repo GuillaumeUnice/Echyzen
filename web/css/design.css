@@ -1,5 +1,145 @@
+
+
+#corps {
+	margin-top: 50px;
+	background:rgb(90,90,90);
+}
+
+footer {
+	clear: both;
+	background:red;
+}
+
+#st-trigger-effects > button {
+
+	z-index: 499;
+	background: url(./add.png) no-repeat;
+	position: fixed; left: 0; top: 0;
+	height : 50px;
+	width:  50px;
+	border: none;
+	cursor:pointer;
+
+}
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+/*
+    Responsive menu
+*/
+.responsive-menu {
+
+	position: fixed;top:0;right: 0;
+	width: 100%;
+    background:rgb(60,60,60);
+    text-align:right;
+    border-bottom: 2px solid rgb(6, 210, 237);
+   /* z-index: 500;*/
+   /* margin-bottom: 17px;*/
+}
+.responsive-menu .trigger,
+.responsive-menu h2 {
+    display:none;
+}
+.responsive-menu ul {
+
+    margin:0;
+    padding:0;
+    /*	position: fixed;top:0;right: 0;
+		width: 100%;
+    background:rgb(60,60,60);
+    list-style-type:none;
+        text-align:right;
+    border-bottom: 2px solid rgb(6, 210, 237);*/
+}
+.responsive-menu ul li {
+    display:inline;
+}
+.responsive-menu ul li a {
+	font-size: 1.5em;
+    display: inline-block;
+    padding:10px;
+    color:white;
+    text-decoration:none;
+}
+.responsive-menu ul li a:hover {
+    cursor: pointer;
+    background-color:rgb(6, 210, 237);
+}
+@media only screen and (max-width : 568px) {
+    .responsive-menu {
+        text-align:center;
+    }
+    .responsive-menu .trigger {
+        display:block;
+        cursor:pointer;
+        color:rgb(6, 210, 237);
+        padding:10px;
+        font-size:1em;
+        font-weight:bold;
+        background:rgb(60, 60,60) url('./responsive-menu-icon.png') 97% 50% no-repeat;
+    }
+    .responsive-menu.open .trigger {
+        background-color:rgb(6, 210, 237);;
+    }
+    .responsive-menu ul li a,
+    .responsive-menu ul li {
+        display:block;
+    }
+    .responsive-menu ul {
+        display:none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*Chargement de la police pour les titres : 'Havlova-austral'*/
-@font-face {
+/*@font-face {
     font-family: 'havla';
     src: url('police/titre/havla___-webfont.eot');
     src: url('police/titre/havla___-webfont.eot?#iefix') format('embedded-opentype'),
@@ -10,9 +150,9 @@
     font-style: normal;
 
 }
-
+*/
 /*Chargement de la police pour les titres : 'special_elite'*/
-@font-face {
+/*@font-face {
     font-family: 'special_elite';
     src: url('police/contenu/specialelite-webfont.eot');
     src: url('police/contenu/specialelite-webfont.eot?#iefix') format('embedded-opentype'),
@@ -31,7 +171,7 @@ body
 	background-color: #474747;
 	font-family: Verdana, Arial, serif;
 	word-wrap: break-word;
-}
+}*/
  
 	::-moz-selection { color: white;  background: red; }
 	::selection      { color: white;  background: red; } 
@@ -63,75 +203,7 @@ body
 		background-color: #3b3b3b;
 
 }
-
-#front_head_red {
-	position: absolute;
-	top: 0px;
-	height: 3px;
-	width: 100%;
-	background-color: rgb(188, 0, 0);
-}
-#menu_co, #menu_deco {
-	position: absolute;
-    top: -15px;
-	height: 50px;
-	width: 50px;
-	background-color: rgb(188, 0, 0);
-	border-radius: 35px;
-	border: 4px solid rgb(150, 0, 0);
-}
-#menu_co{ width: 270px;}
-#menu_deco { width: 180px;}
-#menu_co:hover { cursor: pointer;}
-#menu_deco:hover { cursor: pointer;}
-
-#icon_menu {
-	padding-left: 10px;
-	padding-top: 12px;
-	height: 31px;
-	overflow: hidden;
-}
-
-#gif_co, #png_co {
-	height: 31px;
-	width: 31px;
-	float: left;
-	margin-right: 25px;
-}
-#gif_co {background-image: url('./espace_membre/menu_co.gif');}
-#png_co {background-image: url('./espace_membre/menu_co.png');}
-
-#profil, #param, #mp, #deco, #co, #inscription {
-	height: 20px;
-	width: 20px;
-	float: left;
-	margin-right: 25px;
-	margin-top: 7px;
-}
-
-/******************Si connecte************************/
-#profil {background-image: url('./espace_membre/profil.png');}
-#profil:hover {background-image: url('./espace_membre/profil_hover.png');}
-
-#param {background-image: url('./espace_membre/param.png');}
-#param:hover { background-image: url('./espace_membre/param_hover.png'); }
-
-#mp {
-	background-image: url('./espace_membre/mp.png');
-	height: 14px;
-	margin-top: 10px;
-}
-#mp:hover { background-image: url('./espace_membre/mp_hover.png'); }
-
-#deco {background-image: url('./espace_membre/deco.png');}
-#deco:hover { background-image: url('./espace_membre/deco_hover.png'); }
-
-/******************si non connecte****************/
-#co {background-image: url('./espace_membre/co.png');}
-#co:hover {background-image: url('./espace_membre/co_hover.png'); cursor: pointer;}
-
-#inscription {background-image: url('./espace_membre/inscription.png'); height: 15px;}
-#inscription:hover {background-image: url('./espace_membre/inscription_hover.png'); cursor: pointer;}
+/*
 
 header
 {
@@ -146,8 +218,8 @@ header
 nav
 {
 	background-color: rgb(50,50,50);
-	/*width: 871px;
-	*/dipsplay:inline-block;
+	*//*width: 871px;
+	*//*dipsplay:inline-block;
 	height: 100px;
 		min-height: 100px;
 }
@@ -175,9 +247,9 @@ nav
 	background-color: black;
 	padding-top: 30px;
 	padding-bottom: 30px;
-	margin-right: 0px;
+	margin-right: 0px;*/
 	/*margin-right: 10px;*/
-}
+/*}*/
 /*
 #signature
 {
@@ -233,7 +305,7 @@ nav
 	color: black;
 }*/
 /* Fin de l'en-tête //////////////////////////////////////////////////////////////////////////////////////////*/
-
+/*
 p
 {
 	font-family: 'special_elite', "Comic Sans MS", serif;
@@ -272,7 +344,7 @@ a
 }
 
 a:hover { color: teal; }
-
+*/
 strong
 {
 	font-weight: bold;
@@ -335,7 +407,7 @@ td, th
 
 #bandeau h1
 {
-	float: left;
+	/*float: left;
 	margin: auto;
 	text-decoration: none;
 	padding-top: 10px;
@@ -345,7 +417,14 @@ td, th
 	font-size: 73px;
 	display: block-inline;
 	font-weight: bold; 
-	text-shadow: 5px 6px 3px black;
+	text-shadow: 5px 6px 3px black;*/
+	margin: 0;
+	padding-left: 0.8em;
+	padding-top: 0.3em;
+	color: rgba(0,0,0,0.4);
+	text-shadow: 0 0 1px rgba(0,0,0,0.1);
+	font-weight: 300;
+	font-size: 3em;
 }
 
 #bandeau
@@ -382,7 +461,7 @@ td, th
 
             background: rgba(6,210,237,1) url("gradient-bg.svg");
 
-            /* Navigateurs récents */
+           /* Navigateurs récents */
 
             background-image: -webkit-gradient(
 
@@ -390,9 +469,9 @@ td, th
 
                 left top, right top,
 
-                from(rgba(188,0,0,1)),
+                from(rgba(245,88,85,1)),
 
-                to(rgba(6,210,237,1))
+                to(rgba(97,182,255,1))
 
             );
 
@@ -400,9 +479,9 @@ td, th
 
                 left,
 
-                rgba(188,0,0,1),
+                rgba(245,88,85,1),
 
-                rgba(6,210,237,1)
+                rgba(97,182,255,1)
 
             );
 
@@ -410,9 +489,9 @@ td, th
 
                 left,
 
-                rgba(188,0,0,1),
+                rgba(245,88,85,1),
 
-                rgba(6,210,237,1)
+                rgba(97,182,255,1)
 
             );
 
@@ -420,9 +499,9 @@ td, th
 
                 left,
 
-                rgba(188,0,0,1),
+                rgba(245,88,85,1),
 
-                rgba(6,210,237,1)
+                rgba(97,182,255,1)
 
             );
 
@@ -430,9 +509,9 @@ td, th
 
                 left,
 
-                rgba(188,0,0,1),
+                rgba(245,88,85,1),
 
-                rgba(6,210,237,1)
+                rgba(97,182,255,1)
 
             );
 
@@ -472,10 +551,50 @@ min-height: 100%;
 
 	width: 20%;
 }
-#categorie p {
+#categorie div {
 	padding : 0px 10px;
 }
+#categorie div h2 {
+	margin: 8px 0px 0px 0px;
+	color: rgba(0,0,0,0.4);
+	text-shadow: 0 0 1px rgba(0,0,0,0.1);
+	font-weight: 300;
+	font-size: 1.5em;
+	text-align: center;
+}
 
+#categorie ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#categorie ul li a,  #categorie ul li span{
+	display: block;
+	padding: 0.5em 0.5em 0.5em 0.6em;
+	outline: none;
+	box-shadow: inset 0 -1px rgba(0,0,0,0.2);
+	color: #f3efe0;
+	text-transform: uppercase;
+	text-shadow: 0 0 1px rgba(255,255,255,0.1);
+	letter-spacing: 1px;
+	font-weight: 400;
+	-webkit-transition: background 0.3s, box-shadow 0.3s;
+	transition: background 0.3s, box-shadow 0.3s;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 0.8em;
+}
+
+#categorie ul li:first-child a, #categorie ul li:first-child span {
+	box-shadow: inset 0 -1px rgba(0,0,0,0.2), inset 0 1px rgba(0,0,0,0.2);
+}
+#categorie ul li span { text-decoration: underline; }
+#categorie ul li a:hover, .st-menu ul li span:hover {
+	background: rgba(0,0,0,0.2);
+	box-shadow: inset 0 -1px rgba(0,0,0,0);
+	color: #fff;
+}
 #news1 p {
 	padding : 0px 10px;
 }

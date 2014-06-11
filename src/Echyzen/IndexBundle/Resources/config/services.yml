@@ -1,0 +1,7 @@
+parameters:
+#    echyzen_index.example.class: Echyzen\IndexBundle\Example
+
+services:
+#    echyzen_index.example:
+#        class: %echyzen_index.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

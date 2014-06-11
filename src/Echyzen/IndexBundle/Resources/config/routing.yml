@@ -1,0 +1,3 @@
+echyzen_index_homepage:
+    pattern:  /
+    defaults: { _controller: EchyzenIndexBundle:Default:index }
