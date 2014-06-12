@@ -1,10 +1,67 @@
 {% extends "EchyzenNewsBundle::layout.html.twig" %}
 
 {% block echyzen_news_body %}
-	<h2>{{ new.titre }}</h2>
-	<p>Ecrit le  {{ new.date|date('d/m/Y à  H\hi') }}</p>
-	<p><img title="{{ new.rubrique }}" alt="{{ new.rubrique }}" src="{{ asset( '../src/Echyzen/NewsBundle/Ressources/public/images/' ~ new.rubrique ~ '.png')}}" style="float:left; margin-right: 15px;" />
+   {# <h1>News list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Rubrique</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Publication</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+		#}
+        {% for entity in entities %}
+            
+			
+			
+				<h2>{{ entity.titre }}</h2>
+	<p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+	<p><img title="{{ entity.rubrique }}" alt="{{ entity.rubrique }}" src="{{ asset( '../src/Echyzen/NewsBundle/Ressources/public/images/' ~ entity.rubrique~ '.png')}}" style="float:left; margin-right: 15px;" />
 	<span style="text-align: center;">
-		{{  new.contenu|raw|nl2br }}
+		{{  entity.contenu|raw|nl2br }}
 	</span></p><hr />
-{% endblock %}
+			
+			
+			
+			
+			
+			
+			
+			
+			{#<tr>
+                <td><a href="{{ path('news_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.rubrique }}</td>
+                <td>{{ entity.titre }}</td>
+                <td>{{ entity.contenu }}</td>
+                <td>{{ entity.publication }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('news_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('news_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>#}
+        {% endfor %}
+        {#</tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('news_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>#}
+    {% endblock %}

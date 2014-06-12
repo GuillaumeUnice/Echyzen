@@ -56,6 +56,16 @@ class News
 	private $publication;
 
     /**
+    * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
+    */
+    private $image;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Echyzen\NewsBundle\Entity\Rubrique", inversedBy="news")
+    */
+    private $rubrique;
+
+    /**
     * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="article")
     */
     private $commentaires;

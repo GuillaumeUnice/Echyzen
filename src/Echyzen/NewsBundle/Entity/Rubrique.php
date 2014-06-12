@@ -30,6 +30,12 @@ class Rubrique
 
 
     /**
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\News", mappedBy="rubrique")
+    */
+    private $news;
+
+
+    /**
      * Get id
      *
      * @return integer 

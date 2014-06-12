@@ -1,0 +1,16 @@
+{% extends 'EchyzenNewsBundle::layout.html.twig' %}
+
+{% block echyzen_news_body %}
+   
+   <h1>News creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('news') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

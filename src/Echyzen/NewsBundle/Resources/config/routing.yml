@@ -1,11 +1,3 @@
-echyzen_news_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: EchyzenNewsBundle:Default:index }
-echyzen_news_index:
-    pattern:  /news/{page}
-    defaults: { _controller: EchyzenNewsBundle:News:index, page: 1 }
-    requirements:
-        page: \d*
-echyzen_news_rediger:
-    pattern:  /rediger_news
-    defaults: { _controller: EchyzenNewsBundle:News:rediger }
+EchyzenNewsBundle_news:
+    resource: "@EchyzenNewsBundle/Resources/config/routing/news.yml"
+    prefix:   /news
