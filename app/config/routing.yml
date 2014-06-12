@@ -1,3 +1,7 @@
+echyzen_index:
+    resource: "@EchyzenIndexBundle/Resources/config/routing.yml"
+    prefix:   /
+
 echyzen_news:
     resource: "@EchyzenNewsBundle/Resources/config/routing.yml"
     prefix:   /
