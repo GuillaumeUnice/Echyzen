@@ -32,13 +32,6 @@ class News
     /**
      * @var string
      *
-     * @ORM\Column(name="rubrique", type="string", length=255)
-     */
-    private $rubrique;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
@@ -57,6 +50,10 @@ class News
 
     /**
     * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
+    *
+    * @ORM\JoinColumn(nullable=false)
+    *
+    * @ORM\Column(unique=true)
     */
     private $image;
 
@@ -232,5 +229,28 @@ class News
     public function getCommentaires()
     {
         return $this->commentaires;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return News
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

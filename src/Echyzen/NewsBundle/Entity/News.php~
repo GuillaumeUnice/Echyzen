@@ -32,13 +32,6 @@ class News
     /**
      * @var string
      *
-     * @ORM\Column(name="rubrique", type="string", length=255)
-     */
-    private $rubrique;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
@@ -56,6 +49,20 @@ class News
 	private $publication;
 
     /**
+    * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
+    *
+    * @ORM\JoinColumn(nullable=false)
+    *
+    * @ORM\Column(unique=true)
+    */
+    private $image;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Echyzen\NewsBundle\Entity\Rubrique", inversedBy="news")
+    */
+    private $rubrique;
+
+    /**
     * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="article")
     */
     private $commentaires;
@@ -63,6 +70,7 @@ class News
 	public function __construct()
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
 
     /**
@@ -188,5 +196,38 @@ class News
     public function getPublication()
     {
         return $this->publication;
+    }
+
+    /**
+     * Add commentaires
+     *
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     * @return News
+     */
+    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires[] = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
     }
 }

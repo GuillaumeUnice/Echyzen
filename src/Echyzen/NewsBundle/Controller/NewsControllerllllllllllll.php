@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Echyzen\NewsBundle\Entity\News;
 use Echyzen\NewsBundle\Form\NewsType;
 
-
-use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
  * News controller.
  *
@@ -18,7 +16,8 @@ class NewsController extends Controller
 {
 
     /**
-     * @Secure(roles="ROLE_ADMIN")
+     * Lists all News entities.
+     *
      */
     public function indexAction()
     {

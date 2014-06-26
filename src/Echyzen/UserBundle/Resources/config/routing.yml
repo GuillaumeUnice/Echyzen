@@ -1,0 +1,4 @@
+
+login:
+    pattern: /login
+    defaults: { _controller: EchyzenUserBundle:Security:login }
