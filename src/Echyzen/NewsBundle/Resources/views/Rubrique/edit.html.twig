@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Rubrique edit</h1>
+
+    {#{{ form(edit_form) }}#}
+    <form method="post" >
+        {{ form_widget(form) }}
+        <input type="submit" />
+    </form>
+    
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('rubrique') }}">
+            Back to the list
+        </a>
+    </li>
+    <li><a href="{{ path('rubrique_delete', { 'id' : entity.id}) }}">Delete</a></li>
+</ul>
+{% endblock %}

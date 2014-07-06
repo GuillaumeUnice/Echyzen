@@ -1,0 +1,6 @@
+admin_rubrique_liste:
+    pattern:  /liste_rubrique
+    defaults: { _controller: "EchyzenAdminBundle:Rubrique:liste" }
+admin_rubrique_edit:
+    pattern:  /edit_rubrique/{id}
+    defaults: { _controller: "EchyzenAdminBundle:Rubrique:edit" }

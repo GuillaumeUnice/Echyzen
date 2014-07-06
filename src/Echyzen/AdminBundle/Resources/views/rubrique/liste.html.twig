@@ -1,0 +1,48 @@
+{# src/Echyzen/Admin/Resources/views/rubrique/liste.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body -%}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <h1>Rubrique list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nom }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_rubrique_edit', { 'id': entity.id }) }}">Edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('rubrique_delete', { 'id': entity.id }) }}">Delete</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Rubrique creation</h2>
+    <form method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit" />
+    </form>
+    
+    {% endblock %}

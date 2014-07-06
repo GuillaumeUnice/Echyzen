@@ -48,7 +48,7 @@ class Commentaire
     *
     * @ORM\JoinColumn(nullable=false)
     */
-    private $news;
+    private $articles;
 
     /**
      * Get id
@@ -129,26 +129,6 @@ class Commentaire
         return $this->date;
     }
 
-    /**
-     * Set news
-     *
-     * @param \Echyzen\NewsBundle\Entity\News $news
-     * @return Commentaire
-     */
-    public function setNews(\Echyzen\NewsBundle\Entity\News $news)
-    {
-        $this->news = $news;
 
-        return $this;
-    }
 
-    /**
-     * Get news
-     *
-     * @return \Echyzen\NewsBundle\Entity\News 
-     */
-    public function getNews()
-    {
-        return $this->news;
-    }
 }

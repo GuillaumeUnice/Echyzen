@@ -1,0 +1,15 @@
+{# src/Echyzen/AdminBundle/Resources/views/layout.html.twig #}
+
+{% extends "::admin.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Admin News
+{% endblock %}
+
+
+
+{% block body %}
+	  {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+	<div id="bandeau"><h1>Admin</h1><div id="bandeau_centre"></div></div>
+
+{% endblock %}

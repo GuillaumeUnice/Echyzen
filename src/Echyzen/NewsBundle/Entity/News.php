@@ -63,7 +63,7 @@ class News
     private $rubrique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="article")
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="articles")
     */
     private $commentaires;
 

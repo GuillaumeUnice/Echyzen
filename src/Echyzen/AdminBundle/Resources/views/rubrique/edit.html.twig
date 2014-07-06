@@ -1,0 +1,15 @@
+{# src/Echyzen/Admin/Resources/views/rubrique/edit.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body -%}
+    <h1>Rubrique Edition</h1>
+
+    <h2>Rubrique Edition</h2>
+    <form method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit" />
+    </form>
+
+    <a href="{{ path('admin_rubrique_liste') }}">Retour</a>
+    {% endblock %}

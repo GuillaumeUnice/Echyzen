@@ -1,3 +1,6 @@
 EchyzenNewsBundle_news:
     resource: "@EchyzenNewsBundle/Resources/config/routing/news.yml"
     prefix:   /news
+EchyzenNewsBundle_rubrique:
+    resource: "@EchyzenNewsBundle/Resources/config/routing/rubrique.yml"
+    prefix:   /rubrique

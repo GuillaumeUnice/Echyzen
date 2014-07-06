@@ -1,0 +1,25 @@
+rubrique:
+    path:     /
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:index" }
+
+rubrique_new:
+    path:     /new
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:new" }
+
+rubrique_create:
+    path:     /create
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:create" }
+    requirements: { _method: post }
+
+rubrique_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:edit" }
+
+rubrique_update:
+    path:     /{id}/update
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:update" }
+    requirements: { _method: post|put }
+
+rubrique_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EchyzenNewsBundle:Rubrique:delete" }

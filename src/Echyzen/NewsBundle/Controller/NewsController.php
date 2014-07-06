@@ -8,8 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Echyzen\NewsBundle\Entity\News;
 use Echyzen\NewsBundle\Form\NewsType;
 
-
-use JMS\SecurityExtraBundle\Annotation\Secure;
+use Echyzen\NewsBundle\Entity\Image;
+use Echyzen\NewsBundle\Form\ImageType;
+//use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
  * News controller.
  *
@@ -17,17 +18,35 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class NewsController extends Controller
 {
 
-    /**
-     * @Secure(roles="ROLE_ADMIN")
-     */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('EchyzenNewsBundle:News')->findAll();
+        $array_test = array();
+        foreach ($entities as $key => $value) {
+            $array_test[$key] = $em->getRepository('EchyzenNewsBundle:Rubrique')->find($value->getRubrique());
+        }
+
+        $image = new Image();
+        $form = $this->createForm(new ImageType, $image);
+        $request = $this->getRequest();
+        if( $request->getMethod() == "POST") {
+            $form->handleRequest($request);
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($image);
+                $em->flush();
+            }
+        }
+
+        $rubriques = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
 
         return $this->render('EchyzenNewsBundle:News:index.html.twig', array(
             'entities' => $entities,
+            'test' => $array_test,
+            'rubriques' => $rubriques,
+            'form' => $form->createView(),
         ));
     }
     /**
@@ -74,7 +93,7 @@ class NewsController extends Controller
     }
 
     /**
-     * Displays a form to create a new News entity.
+     * Affiche un formulaire pour créer une nouvelle news
      *
      */
     public function newAction()

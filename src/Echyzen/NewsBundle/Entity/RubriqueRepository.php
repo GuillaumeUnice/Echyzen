@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class RubriqueRepository extends EntityRepository
 {
+
+	public function getRubriqueByAlph() {
+		return $this->createQueryBuilder('r')->orderBy('r.nom')->getQuery()->getResult();
+	}
 }

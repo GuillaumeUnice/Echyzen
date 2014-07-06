@@ -37,7 +37,7 @@ class Rubrique
     private $news;
 
     /**
-    * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
+    * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"}, inversedBy="rubrique")
     * @ORM\JoinColumn(nullable=false)
     * @Assert\NotBlank()
     */

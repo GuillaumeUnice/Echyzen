@@ -1,5 +1,18 @@
-{% extends '::base.html.twig' %}
+{% extends "EchyzenNewsBundle::layout.html.twig" %}
 
+{% block echyzen_news_body %}
+    <h2>{{ entity.titre }}</h2>
+    <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+    <p>{#<img title="{{ entity.rubrique }}" alt="{{ entity.rubrique }}" src="{{ asset( '../src/Echyzen/NewsBundle/Ressources/public/images/' ~ entity.rubrique~ '.png')}}" style="float:left; margin-right: 15px;" />#}
+    <span style="text-align: center;">
+        {{  entity.contenu|raw|nl2br }}
+    </span></p><hr />
+
+
+    <a target="_blank" class="social-twitter" href="https://twitter.com/intent/tweet?text={{ entity.titre }}&url=#">Twitter</a> 
+{{ form(delete_form) }}
+{% endblock %}
+{#
 {% block body -%}
     <h1>News</h1>
 
@@ -46,3 +59,4 @@
     <li>{{ form(delete_form) }}</li>
 </ul>
 {% endblock %}
+#}

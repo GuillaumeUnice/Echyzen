@@ -1,0 +1,53 @@
+{# src/Echyzen/Admin/Resources/views/news/liste.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Rubrique</th>
+                <th>Titre</th>
+                <th>Publication</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for key, entity in entities %}
+            
+
+
+            <tr>
+                <td><a href="{{ path('news_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>rien</td>
+                <td>{{ entity.titre }}</td>
+                <td>{{ entity.publication }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('news_show', { 'id': entity.id }) }}">Delete</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('news_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('news_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+
+{% endblock %}

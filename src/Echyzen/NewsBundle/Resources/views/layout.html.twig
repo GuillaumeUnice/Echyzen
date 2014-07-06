@@ -1,6 +1,6 @@
 {# src/Echyzen/NewsBundle/Resources/views/layout.html.twig #}
 
-{% extends "::layout.html.twig" %}
+{% extends "::public.html.twig" %}
 
 {% block title %}
   {{ parent() }} - News
@@ -27,7 +27,11 @@
 			<div id="rubrique">
 				<h2>Rubrique</h2>
 				<ul>
-					<li><a href="#">Découverte</a></li>
+					{% block test %}
+					{% endblock %}
+					    {% for rubrique in rubriques %}
+        <li><a href="{{ rubrique.id }}">{{ rubrique.nom }}</a></li>
+    {% endfor %}
 					<li><a href="#">Info</a></li>
 					<li><a href="#">Projet</a></li>
 					<li><a href="#">Site</a></li>

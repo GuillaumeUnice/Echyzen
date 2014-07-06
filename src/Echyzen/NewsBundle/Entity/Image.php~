@@ -27,6 +27,11 @@ class Image
 	private $alt;
 
 	/**
+	* @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Rubrique", mappedBy="image")
+	*/
+	private $rubrique;
+
+	/**
 	* @Assert\File(maxSize="500k")
 	*
 	* @var UploadedFile
@@ -35,17 +40,6 @@ class Image
 
 	private $tempFilename;
 
-	
-	private $path;
-	
-
-	public function __construct($path = 'rubrique') {
-
-			
-			$this->path = $path;
-
-
-	}
 	/**
 	* @ORM\PrePersist()
 	* @ORM\PreUpdate()
@@ -70,7 +64,7 @@ class Image
 	*/
 	public function upload()
 	{
-	
+				die('lo');
 		// Si jamais il n'y a pas de fichier (champ facultatif)
 		if (null === $this->file) {
 			return;
@@ -113,7 +107,7 @@ class Image
 	public function getUploadDir()
 	{
 		// On retourne le chemin relatif vers l'image pour un navigateur
-		return 'uploads/img' . $this->path;
+		return 'uploads/img';
 	}
 
 	protected function getUploadRootDir()
@@ -189,4 +183,57 @@ class Image
 		return $this->file;
 	}
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->rubrique = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add rubrique
+     *
+     * @param \Echyzen\NewsBundle\Entity\Rubrique $rubrique
+     * @return Image
+     */
+    public function addRubrique(\Echyzen\NewsBundle\Entity\Rubrique $rubrique)
+    {
+        $this->rubrique[] = $rubrique;
+
+        return $this;
+    }
+
+    /**
+     * Remove rubrique
+     *
+     * @param \Echyzen\NewsBundle\Entity\Rubrique $rubrique
+     */
+    public function removeRubrique(\Echyzen\NewsBundle\Entity\Rubrique $rubrique)
+    {
+        $this->rubrique->removeElement($rubrique);
+    }
+
+    /**
+     * Get rubrique
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRubrique()
+    {
+        return $this->rubrique;
+    }
+
+    /**
+     * Set rubrique
+     *
+     * @param \Echyzen\NewsBundle\Entity\Rubrique $rubrique
+     * @return Image
+     */
+    public function setRubrique(\Echyzen\NewsBundle\Entity\Rubrique $rubrique = null)
+    {
+        $this->rubrique = $rubrique;
+
+        return $this;
+    }
 }
