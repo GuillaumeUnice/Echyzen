@@ -3,6 +3,7 @@
 namespace Echyzen\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * News
@@ -50,10 +51,8 @@ class News
 
     /**
     * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
-    *
     * @ORM\JoinColumn(nullable=false)
-    *
-    * @ORM\Column(unique=true)
+    * @Assert\NotBlank()
     */
     private $image;
 

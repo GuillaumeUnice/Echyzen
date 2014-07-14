@@ -1,14 +1,87 @@
 {% extends "EchyzenNewsBundle::layout.html.twig" %}
 
+{% block javascripts %}
+  {{ parent() }}
+{#    <script type="text/javascript" >
+        jQuery(document).ready(function ($) {
+
+            $("#rubrique li").click(function(e) {
+                
+
+
+                var url = '{{ path("news_by_rubrique", {'id': 'id'}) }}'; 
+                url = url.replace("id", this.value);
+                alert(url);
+
+                var result = '';
+                var param = '';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    timeout: 3000,
+                    success: function (data) {
+                        console.log(data);
+                        for(key in data) {
+                            result += "<h2>" + data[key].titre + "</h2>"
+                            + "<p>Ecrit le  " + data[key].date.date + "</p>"
+                            + '<p><span style="text-align: center;">' + data[key].contenu
+                            + '</span></p><hr />';
+                         
+                            //param = param.replace("param", data[key].titre);
+                           // result += param;
+                             
+                            //alert(data[key].id);
+                        }
+                        // on remplace le contenu
+                        $("#news1").html(result);
+                    },
+                    error: function () {
+                        alert('La requête n\'a pas abouti');
+                    }
+                })
+            });
+        });
+</script>#}
+<script type="text/javascript" >
+        jQuery(document).ready(function ($) {
+
+            $("#rubrique li").click(function(e) {
+            
+                var url = '{{ path("news_by_rubrique", {'id': 'id'}) }}'; 
+                url = url.replace("id", this.value);
+                alert(url);
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    timeout: 50000,
+                    success: function (data) {
+                       // $("#news1").html(data['html']);
+$("#news1").html(data);
+                        //$("#news1").html(data);
+                    },   
+                    error: function () {
+                        alert('La requête n\'a pas abouti');
+                    }
+                })
+            });
+        });
+</script>
+
+
+{% endblock %}
+
 {% block test %}
     {% for rubrique in rubriques %}
-        <li><a href="{{ rubrique.id }}">{{ rubrique.nom }}</a></li>
+        <li value="{{ rubrique.id }}">{{ rubrique.nom }}</li>
+        
     {% endfor %}
     
 {% endblock %}
 {% block echyzen_news_body %}
    
 
+<a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>
    {# <h1>News list</h1>
 
     <table class="records_list">
@@ -31,10 +104,12 @@
 
                 <h2>{{ entity.titre }}</h2>
     <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
-    <p><img title="{{ test[key].nom }}" alt="{{ test[key].nom }}" src="{{ asset( 'bundles/echyzennews/images/' ~ test[key].nom ~ '.png')}}" style="float:left; margin-right: 15px;" />
-    <span style="text-align: center;">
-        {{  entity.contenu|raw|nl2br|markdown }}
-    </span></p><hr />
+    <p>
+        {#<img title="{{ test[key].nom }}" alt="{{ test[key].nom }}" src="{{ asset( 'bundles/echyzennews/images/' ~ test[key].nom ~ '.png')}}" style="float:left; margin-right: 15px;" />#}
+        <span style="text-align: center;">
+            {{  entity.contenu|raw|nl2br|markdown }}
+        </span>
+    </p><hr />
 
 {#
 <a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
@@ -74,9 +149,9 @@
         </li>
     </ul>#}
 
-
+{#}
     <form method="post" {{form_enctype(form) }}>
         {{ form_widget(form) }}
         <input type="submit" />
-    </form>
+    </form>#}
     {% endblock %}

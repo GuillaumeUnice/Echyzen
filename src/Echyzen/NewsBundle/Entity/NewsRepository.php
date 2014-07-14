@@ -12,5 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class NewsRepository extends EntityRepository
 {
-
+	public function getByRubrique($id) {
+		return $this->createQueryBuilder('n')->where('n.rubrique = :id')->setParameter('id', $id)->orderBy('n.date')->getQuery()->getResult();
+	}
 }

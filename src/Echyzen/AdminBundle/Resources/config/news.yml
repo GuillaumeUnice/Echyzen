@@ -7,3 +7,9 @@ admin_news_liste:
 admin_news_create:
     pattern:  /create_news
     defaults: { _controller: "EchyzenAdminBundle:News:create" }
+admin_news_edit:
+    pattern:  /edit_news/{id}
+    defaults: { _controller: "EchyzenAdminBundle:News:edit" }
+admin_news_delete:
+    pattern:  /delete_news/{id}
+    defaults: { _controller: "EchyzenAdminBundle:News:delete" }

@@ -5,17 +5,48 @@
 {% block title %}
   {{ parent() }} - News
 {% endblock %}
+{% block stylesheet %}
 
+  {{ parent() }}
+
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/echyzennews/js/topMenu.js') }}" type="text/javascript" ></script>
+  <script type="text/javascript" >
+  			window.onload = function(){ 
+  				var menuTop = document.getElementById( 'top_menu' ),
+				showTop = document.getElementById( 'showTop' ),
+				body = document.body;
+
+
+			showTop.onclick = function() {
+				alert('lol');
+				classie.toggle( this, 'active' );
+				classie.toggle( menuTop, 'cbp-spmenu-open' );
+				classie.toggle( showTop, 'disabled' );
+			};
+
+
+
+		};
+  </script>
+{% endblock %}
 
 
 {% block body %}
-	  {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+
+
+		
+
+	{# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
 	<div id="bandeau"><h1>News</h1><div id="bandeau_centre"></div></div>
  
 
 	<div id="corps_bis">
 
 		<div id="news1">
+			<button id="showTop">Show/Hide Top Slide Menu</button>
 			{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
 			{% block echyzen_news_body %}
 			{% endblock %}
@@ -29,9 +60,7 @@
 				<ul>
 					{% block test %}
 					{% endblock %}
-					    {% for rubrique in rubriques %}
-        <li><a href="{{ rubrique.id }}">{{ rubrique.nom }}</a></li>
-    {% endfor %}
+					
 					<li><a href="#">Info</a></li>
 					<li><a href="#">Projet</a></li>
 					<li><a href="#">Site</a></li>

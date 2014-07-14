@@ -28,3 +28,6 @@ news_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "EchyzenNewsBundle:News:delete" }
     requirements: { _method: post|delete }
+news_by_rubrique:
+    pattern:  /{id}/lol
+    defaults: { _controller: "EchyzenNewsBundle:News:getByRubrique" }

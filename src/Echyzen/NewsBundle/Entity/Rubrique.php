@@ -26,7 +26,7 @@ class Rubrique
      *
      * @ORM\Column(name="nom", type="string", length=255)
      *
-     * @Assert\Length(min=2, minMessage="La rubrique doit faire au moins {{limit}} caractères")
+     * @Assert\Length(min=2, minMessage="La rubrique doit faire au moins {{min}} caractères")
      */
     private $nom;
 

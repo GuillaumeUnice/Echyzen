@@ -10,7 +10,9 @@ use Echyzen\NewsBundle\Form\NewsType;
 
 use Echyzen\NewsBundle\Entity\Image;
 use Echyzen\NewsBundle\Form\ImageType;
-//use JMS\SecurityExtraBundle\Annotation\Secure;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 /**
  * News controller.
  *
@@ -239,5 +241,47 @@ class NewsController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    public function getByRubriqueAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('EchyzenNewsBundle:News')->getByRubrique($id);
+
+        /* marche pour envoyer du JSON s'assurer que le repository return un getArrayResult()
+        $response = new JsonResponse();
+        $response->setData($entities);
+        return $response;*/
+        
+
+        $json = array();
+        $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
+            'entities' => $entities
+        ));
+        /*$response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;*/
+
+        $response = new Response();
+
+$response->setContent($json['html']);
+$response->setStatusCode(200);
+$response->headers->set('Content-Type', 'text/html');
+        
+return $response;
+
+
+        /*ancien
+        $lReturn = array();
+        //use renderview instead of render, because renderview returns the rendered template
+        $lReturn['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
+            'entities' => $entities
+        ));
+        die($lReturn['html']);
+        return new Response(json_encode($lReturn), 200, array('Content-Type'=>'application/json'));*/
+        /*return $this->render('EchyzenNewsBundle:News:index_show.html.twig', array(
+            'entities' => $entities,
+        ));*/
+        
+       
     }
 }

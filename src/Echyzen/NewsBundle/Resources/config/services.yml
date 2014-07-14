@@ -1,5 +1,5 @@
 parameters:
-#    echyzen_news.example.class: Echyzen\NewsBundle\Example
+    twitter_name: echyzenWebsite
 
 services:
     echyzen_news.socialbar:

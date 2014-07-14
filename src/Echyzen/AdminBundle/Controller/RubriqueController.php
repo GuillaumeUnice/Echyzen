@@ -91,7 +91,6 @@ class RubriqueController extends Controller
         
 
         return $this->render('EchyzenAdminBundle:Rubrique:edit.html.twig', array(
-            'entity'      => $entity,
             'form' => $form->createView(),
          //   'edit_form'   => $editForm->createView(),
         ));

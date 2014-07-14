@@ -41,8 +41,8 @@ class SocialBar extends \Twig_Extension
             $result .= 'data-url="https://' . $url . '" ';
         }
 
-        if($titre >= LIMIT_CHAR ) {
-            $titre = substr($titre, 0, LIMIT_CHAR);
+        if($titre >= $this->LIMIT_CHAR ) {
+            $titre = substr($titre, 0, $this->LIMIT_CHAR);
             $titre .= '...';
         }
         

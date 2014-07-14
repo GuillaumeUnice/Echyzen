@@ -1,0 +1,14 @@
+{% for key, entity in entities %}
+    <h2>{{ entity.titre }}</h2>
+    <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+    <p>
+        <span style="text-align: center;">
+            lol sa marche{{  entity.contenu|raw|nl2br|markdown }}
+        </span>
+    </p>
+    <hr />
+
+
+    {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+
+{% endfor %}

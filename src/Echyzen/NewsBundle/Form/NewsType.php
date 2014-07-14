@@ -15,11 +15,15 @@ class NewsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date')
-            ->add('rubrique')
-            ->add('titre')
-            ->add('contenu')
-            ->add('publication')
+            ->add('image', new ImageType(), array('required' => true))
+            ->add('rubrique', 'entity', array(
+                    'class'    => 'EchyzenNewsBundle:Rubrique',
+                    'property' => 'nom',
+                    'multiple' => false)
+            )
+            ->add('titre', 'text')
+            ->add('contenu', 'textarea')
+            ->add('publication', 'checkbox', array('required' => false));
         ;
     }
     

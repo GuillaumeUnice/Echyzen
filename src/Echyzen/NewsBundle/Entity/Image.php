@@ -39,7 +39,7 @@ class Image
 	private $path;
 	
 
-	public function __construct($path = 'rubrique') {
+	public function __construct($path = null) {
 
 			
 			$this->path = $path;

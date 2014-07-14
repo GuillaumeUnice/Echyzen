@@ -3,7 +3,11 @@
 {% extends "EchyzenAdminBundle::layout.html.twig" %}
 
 {% block body %}
-
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     <table class="records_list">
         <thead>
             <tr>
@@ -30,10 +34,12 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('news_show', { 'id': entity.id }) }}">Delete</a>
+                        <a class="iframe" href="{{ path('admin_news_edit', { 'id': entity.id }) }}">Edit</a>
+                        
                     </li>
                     <li>
-                        <a href="{{ path('news_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('admin_news_delete', { 'id': entity.id }) }}">Delete</a>
+                        {#<a href="{{ path('news_show', { 'id': entity.id }) }}">Show</a>#}
                     </li>
                 </ul>
                 </td>
@@ -44,7 +50,7 @@
 
         <ul>
         <li>
-            <a href="{{ path('news_new') }}">
+            <a href="{{ path('admin_news_create') }}">
                 Create a new entry
             </a>
         </li>
