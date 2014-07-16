@@ -80,7 +80,7 @@
 	background-image: url('./images/fancybox_sprite.png');
 }
 
-#fancybox-loading {
+#fancybox-loading{
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -91,8 +91,7 @@
 	cursor: pointer;
 	z-index: 8060;
 }
-
-#fancybox-loading div {
+#fancybox-loading div, .loading {
 	/*width: 44px;
 	height: 44px;
 	background: url('./images/fancybox_loading.gif') center center no-repeat;*/

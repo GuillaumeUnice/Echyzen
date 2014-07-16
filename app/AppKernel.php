@@ -28,7 +28,7 @@ class AppKernel extends Kernel
 			new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Echyzen\AdminBundle\EchyzenAdminBundle(),
 			new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-			
+            new Echyzen\TestBundle\EchyzenTestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

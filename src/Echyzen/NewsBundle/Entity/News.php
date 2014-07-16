@@ -62,7 +62,7 @@ class News
     private $rubrique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="articles")
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
     */
     private $commentaires;
 
@@ -203,21 +203,25 @@ class News
      * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
      * @return News
      */
-    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaire)
     {
-        $this->commentaires[] = $commentaires;
-
+        $this->commentaires[] = $commentaire;
+        // on ajoute le setter pour rendre les objets cohérents
+        $commentaire->setNews($this);
         return $this;
     }
 
     /**
      * Remove commentaires
      *
-     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaire
      */
-    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaire)
     {
-        $this->commentaires->removeElement($commentaires);
+        $this->commentaires->removeElement($commentaire);
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $commentaire->setArticle(null);
     }
 
     /**

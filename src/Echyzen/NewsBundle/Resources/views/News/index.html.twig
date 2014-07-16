@@ -1,75 +1,5 @@
 {% extends "EchyzenNewsBundle::layout.html.twig" %}
 
-{% block javascripts %}
-  {{ parent() }}
-{#    <script type="text/javascript" >
-        jQuery(document).ready(function ($) {
-
-            $("#rubrique li").click(function(e) {
-                
-
-
-                var url = '{{ path("news_by_rubrique", {'id': 'id'}) }}'; 
-                url = url.replace("id", this.value);
-                alert(url);
-
-                var result = '';
-                var param = '';
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    timeout: 3000,
-                    success: function (data) {
-                        console.log(data);
-                        for(key in data) {
-                            result += "<h2>" + data[key].titre + "</h2>"
-                            + "<p>Ecrit le  " + data[key].date.date + "</p>"
-                            + '<p><span style="text-align: center;">' + data[key].contenu
-                            + '</span></p><hr />';
-                         
-                            //param = param.replace("param", data[key].titre);
-                           // result += param;
-                             
-                            //alert(data[key].id);
-                        }
-                        // on remplace le contenu
-                        $("#news1").html(result);
-                    },
-                    error: function () {
-                        alert('La requête n\'a pas abouti');
-                    }
-                })
-            });
-        });
-</script>#}
-<script type="text/javascript" >
-        jQuery(document).ready(function ($) {
-
-            $("#rubrique li").click(function(e) {
-            
-                var url = '{{ path("news_by_rubrique", {'id': 'id'}) }}'; 
-                url = url.replace("id", this.value);
-                alert(url);
-
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    timeout: 50000,
-                    success: function (data) {
-                       // $("#news1").html(data['html']);
-$("#news1").html(data);
-                        //$("#news1").html(data);
-                    },   
-                    error: function () {
-                        alert('La requête n\'a pas abouti');
-                    }
-                })
-            });
-        });
-</script>
-
-
-{% endblock %}
 
 {% block test %}
     {% for rubrique in rubriques %}
@@ -78,80 +8,41 @@ $("#news1").html(data);
     {% endfor %}
     
 {% endblock %}
+
 {% block echyzen_news_body %}
    
+    <a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>
+   
+    {% for key, entity in entities %}
+        <div class="news">
+            <p> {{ entity.commentaires | length }}  commentaires </p> 
+              
 
-<a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>
-   {# <h1>News list</h1>
+            <h2>{{ entity.titre }}</h2>
+            <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+            <p>
+                <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}"
+                    src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                    entity.image.url) }}" style="float:left; margin-right: 15px;" />
+                <span style="text-align: center;">
+                    {{  entity.contenu|raw|nl2br|markdown }}
+                </span>
+            </p>
+            <hr />
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Rubrique</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Publication</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        #}
-        {% for key, entity in entities %}
-            
-
-
-                <h2>{{ entity.titre }}</h2>
-    <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
-    <p>
-        {#<img title="{{ test[key].nom }}" alt="{{ test[key].nom }}" src="{{ asset( 'bundles/echyzennews/images/' ~ test[key].nom ~ '.png')}}" style="float:left; margin-right: 15px;" />#}
-        <span style="text-align: center;">
-            {{  entity.contenu|raw|nl2br|markdown }}
-        </span>
-    </p><hr />
-
-{#
-<a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>#}
-{{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+            {#
+            <a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>#}
+            {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
 
 
+            {# génération du bouton commentaire #}
+            <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
 
-
-            {#<tr>
-                <td><a href="{{ path('news_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.rubrique }}</td>
-                <td>{{ entity.titre }}</td>
-                <td>{{ entity.contenu }}</td>
-                <td>{{ entity.publication }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('news_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('news_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>#}
-        {% endfor %}
-        {#</tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('news_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>#}
-
-{#}
-    <form method="post" {{form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <input type="submit" />
-    </form>#}
-    {% endblock %}
+      
+            {% for commentaire in entity.commentaires %}
+                <br />{{ commentaire.contenu }}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

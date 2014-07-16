@@ -6,28 +6,15 @@ news_show:
     pattern:  /{id}/show
     defaults: { _controller: "EchyzenNewsBundle:News:show" }
 
-news_new:
-    pattern:  /new
-    defaults: { _controller: "EchyzenNewsBundle:News:new" }
-
-news_create:
-    pattern:  /create
-    defaults: { _controller: "EchyzenNewsBundle:News:create" }
-    requirements: { _method: post }
-
-news_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "EchyzenNewsBundle:News:edit" }
-
-news_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "EchyzenNewsBundle:News:update" }
-    requirements: { _method: post|put }
-
-news_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "EchyzenNewsBundle:News:delete" }
-    requirements: { _method: post|delete }
+#ajout par moi
 news_by_rubrique:
-    pattern:  /{id}/lol
+    pattern:  /{id}/rubrique
     defaults: { _controller: "EchyzenNewsBundle:News:getByRubrique" }
+    options:
+        expose: true
+
+news_create_commentaire:
+    pattern: /create_commentaire/{id}
+    defaults: { _controller: "EchyzenNewsBundle:News:createCommentaire" }
+    options:
+        expose: true

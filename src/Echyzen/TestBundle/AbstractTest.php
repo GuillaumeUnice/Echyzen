@@ -1,32 +1,24 @@
 <?php
 
-namespace Echyzen\NewsBundle\Entity;
+namespace Echyzen\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * Commentaire
+ * Echyzen\TestBundle\Entity\AbstractTest
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Echyzen\NewsBundle\Entity\CommentaireRepository")
  */
-class Commentaire
+class AbstractTest
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="auteur", type="string", length=255)
-     */
-    private $auteur;
+    /**
+     * @var integer
+     *
+     * @ORM\OneToOne(targetEntity="Echyzen\UserBundle\Entity\User", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $user;
 
     /**
      * @var string
@@ -53,7 +45,7 @@ class Commentaire
     public function __construct()
     {
         $this->date = new \Datetime(); // Par défaut, la date du commentaire
-
+        
     }
 
     /**
@@ -134,25 +126,7 @@ class Commentaire
     {
         return $this->date;
     }
-    /**
-    * Set news
-    *
-    * @param Echyzen\NewsBundle\Entity\News $news
-    */
-    public function setNews(\Echyzen\NewsBundle\Entity\News $news)
-    {
-        $this->news = $news;
-    }
 
-    /**
-    * Get news
-    *
-    * @return Echyzen\NewsBundle\Entity\News
-    */
-    public function getNews()
-    {
-        return $this->news;
-    }
 
 
 }

@@ -1,0 +1,19 @@
+{# src/Echyzen/News/Resources/views/commentaire/create.html.twig #}
+
+
+{% block body -%}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <h1>Commentaire create</h1>
+
+    <h2>Formulaire commentaire</h2>
+    <form method="post" class="ajax_form" {{ form_enctype(form) }} action="{{ path('news_create_commentaire',{'id':1}) }}">
+        {{ form_widget(form) }}
+        <input type="submit" />
+    </form>
+    <div class='test'>ygfsfegfs</div>
+{% endblock %}

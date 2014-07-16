@@ -11,6 +11,9 @@ use Echyzen\NewsBundle\Form\NewsType;
 use Echyzen\NewsBundle\Entity\Image;
 use Echyzen\NewsBundle\Form\ImageType;
 
+use Echyzen\NewsBundle\Entity\Commentaire;
+use Echyzen\NewsBundle\Form\CommentaireType;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 /**
@@ -51,63 +54,6 @@ class NewsController extends Controller
             'form' => $form->createView(),
         ));
     }
-    /**
-     * Creates a new News entity.
-     *
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new News();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('news_show', array('id' => $entity->getId())));
-        }
-
-        return $this->render('EchyzenNewsBundle:News:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to create a News entity.
-    *
-    * @param News $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(News $entity)
-    {
-        $form = $this->createForm(new NewsType(), $entity, array(
-            'action' => $this->generateUrl('news_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Affiche un formulaire pour créer une nouvelle news
-     *
-     */
-    public function newAction()
-    {
-        $entity = new News();
-        $form   = $this->createCreateForm($entity);
-
-        return $this->render('EchyzenNewsBundle:News:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
 
     /**
      * Finds and displays a News entity.
@@ -123,107 +69,9 @@ class NewsController extends Controller
             throw $this->createNotFoundException('Unable to find News entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('EchyzenNewsBundle:News:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
-     * Displays a form to edit an existing News entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('EchyzenNewsBundle:News')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find News entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('EchyzenNewsBundle:News:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
-    }
-
-    /**
-    * Creates a form to edit a News entity.
-    *
-    * @param News $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(News $entity)
-    {
-        $form = $this->createForm(new NewsType(), $entity, array(
-            'action' => $this->generateUrl('news_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing News entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('EchyzenNewsBundle:News')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find News entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('news_edit', array('id' => $id)));
-        }
-
-        return $this->render('EchyzenNewsBundle:News:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    /**
-     * Deletes a News entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('EchyzenNewsBundle:News')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find News entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('news'));
     }
 
     /**
@@ -284,4 +132,55 @@ return $response;
         
        
     }
+
+    public function createCommentaireAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $news = $em->getRepository('EchyzenNewsBundle:News')->find($id);
+
+        if(!$news) {
+
+            $this->get('session')->getFlashBag()->add(
+                'erreur',
+                'Page inexistante, la news n\'a pas pu être trouvé 
+                il est donc impossible de poster un commentaire'
+            );
+            // Pour le moment une exception mais par la suite une redirection ;)
+            throw $this->createNotFoundException('Unable to find News entity.');
+        }
+
+        $commentaire = new Commentaire($news);
+        $form = $this->createForm(new CommentaireType, $commentaire);
+
+        //recuperation du type d'envoie de donnée $_POST || $_GET
+        $request = $this->getRequest();
+        if($request->getMethod() == 'POST') {
+
+            //récupération et donc hydration du formulaire par le client
+            $form->handleRequest($request);
+            // vérification de la validité
+
+            if($form->isValid()) {
+
+                //ajout du commentaire à la news
+                $news->addCommentaire($commentaire);
+
+
+                // récupération de l'entityManager
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($commentaire);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Le commentaire a été prit enregistré'
+                );
+            }
+        }
+
+        return $this->render('EchyzenNewsBundle:commentaire:create.html.twig', array(
+            'form'   => $form->createView(),
+        ));
+    } // createCommentaireAction()
 }
