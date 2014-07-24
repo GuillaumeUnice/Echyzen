@@ -6,12 +6,19 @@
 		<meta name="keywords" content="portofolio, galerie, infographie, informatique, programmation, zbrush, blender, html, css, php, ..." />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		{% block stylesheet %}
+			
+			{% stylesheets filter='cssrewrite'
+				'css/design.css'  'css/jquery.fancybox.css' 'css/sidebar_effect.css'
+				'css/topMenu.css'
+			%}
+				<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+			{% endstylesheets %}
 
-			<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/design.css') }}" />
+			{#<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/design.css') }}" />#}
 
 			{# Chargement du css de la fancyBox #}
-			<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/jquery.fancybox.css') }}" />
-			<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/sidebar_effect.css') }}" />
+			{#<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/jquery.fancybox.css') }}" />
+			<link rel="stylesheet" media="screen" type="text/css" title="Design" href="{{ asset('css/sidebar_effect.css') }}" />#}
 			
 			<link rel="shortcut icon" href="{{ asset('css/favicon.ico') }}" >
 			<!-- Icon Apple touch -->
@@ -91,6 +98,7 @@
 			<nav class="st-menu st-effect-12" id="menu-12">
 
 				<h2>Espace membre</h2>
+				<a class="iframe" href="http://www.zalando.fr/">zalando</a>
 <div id="st-trigger-effects">
 
 					<ul>

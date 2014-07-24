@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NewsController extends Controller
 {
-
+    
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -93,30 +93,43 @@ class NewsController extends Controller
 
     public function getByRubriqueAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('EchyzenNewsBundle:News')->getByRubrique($id);
-
+        $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByRubrique($id);
+        return self::vue($array);
         /* marche pour envoyer du JSON s'assurer que le repository return un getArrayResult()
         $response = new JsonResponse();
         $response->setData($entities);
         return $response;*/
-        
 
-        $json = array();
-        $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
-            'entities' => $entities
-        ));
-        /*$response = new Response(json_encode($json));
+        /*Je ne pense pas que cela marche
+        $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
         return $response;*/
 
-        $response = new Response();
+        /* ce qui est maintenant dans la fonction private getVue()
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()){
+            $json = array();
+            $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
+                'entities' => $entities
+            ));
 
-$response->setContent($json['html']);
-$response->setStatusCode(200);
-$response->headers->set('Content-Type', 'text/html');
-        
-return $response;
 
+            $response = new Response();
+
+            $response->setContent($json['html']);
+            $response->setStatusCode(200);
+            $response->headers->set('Content-Type', 'text/html');
+                    
+            return $response;
+        } else {
+            $rubriques = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
+            return $this->render('EchyzenNewsBundle:News:index.html.twig', array(
+                'entities' => $entities,
+                'rubriques' => $rubriques,
+            ));
+            
+        }
+        return false;*/
 
         /*ancien
         $lReturn = array();
@@ -183,4 +196,26 @@ return $response;
             'form'   => $form->createView(),
         ));
     } // createCommentaireAction()
+
+    private function vue($array) {
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()){
+            $json = array();
+            $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', $array);
+
+
+            $response = new Response();
+            $response->setContent($json['html']);
+            $response->setStatusCode(200);
+            $response->headers->set('Content-Type', 'text/html');        
+            return $response;
+
+        } else {
+
+            $array['rubriques'] = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
+            return $this->render('EchyzenNewsBundle:News:index.html.twig', $array);
+            
+        }
+    } // getVue()
 }

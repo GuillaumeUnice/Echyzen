@@ -1,48 +1,120 @@
 {% extends "EchyzenNewsBundle::layout.html.twig" %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" >
 
-{% block test %}
-    {% for rubrique in rubriques %}
-        <li value="{{ rubrique.id }}">{{ rubrique.nom }}</li>
-        
-    {% endfor %}
-    
+    jQuery(document).ready(function ($) {
+        $('.tests').each(function( index ) {
+            $(this).hide();
+        });
+        $('.news .news_titre').on('click', function() {
+            
+            $(this).parent().find('.tests').slideToggle("slow");
+            /*alert($(this).parent().attr('value'));
+            if($(this).parent().attr('value') == 1) {
+
+
+            } else {
+                //var $test = $(this).parent();
+                //$(this).parent().hide();
+                var $test = $(this).parent().find('.news_mot_cle');
+                $('<hr />').prependTo($test);
+                $(this).parent().find('.mot_cle').clone().prependTo($test);
+                $(this).parent().find('.news_footer p').clone().prependTo($test);
+                $(this).parent().find('.tests').fadeIn("slow");//slideToggle( "slow");//show(); 
+                $(this).parent().attr('value', 1);  
+            }*/
+            
+        }) ;
+    });
+  </script>
 {% endblock %}
 
 {% block echyzen_news_body %}
-   
-    <a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>
+   {#
+    <a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>#}
    
     {% for key, entity in entities %}
-        <div class="news">
-            <p> {{ entity.commentaires | length }}  commentaires </p> 
-              
+        <article class="news" value="0">
 
-            <h2>{{ entity.titre }}</h2>
-            <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
-            <p>
+            <h2 class="news_titre">
+                <img class="img_miniature" title="{{ entity.rubrique.image.alt }}" alt="{{ entity.rubrique.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.rubrique.image.id ~ '.' ~ 
+                entity.rubrique.image.url) }}" />
+                {{ entity.titre }}
+                <span> {{ entity.commentaires | length }}  commentaires</span>
+            </h2>
+            <div class="news_panneau">
                 <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}"
-                    src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
-                    entity.image.url) }}" style="float:left; margin-right: 15px;" />
-                <span style="text-align: center;">
-                    {{  entity.contenu|raw|nl2br|markdown }}
-                </span>
-            </p>
-            <hr />
+                src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                entity.image.url) }}" style="float:left; margin-right: 15px;" />
+
+
+                <div class="news_mot_cle">
+
+                    <p>
+                        <span style="">{{  entity.contenu|raw|nl2br|markdown}}</span>
+                        <span style="float : right; color: rgba(0,0,0,0.4);
+                        text-shadow: 0 0 1px rgba(0,0,0,0.1);
+                        font-weight: 600;
+                        font-size: 1.8em;">Lire la suite...</span>
+
+                        <span class="mot_cle">Mots-Clés : #Ajax</span>
+                    </p>
+                   
+
+
+                    <div class="tests">
+                        <hr />
+                        <div class="news_button">
+                            {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+
+                            {# génération du bouton commentaire #}
+                            <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
+                        </div>
+                        <div class="commentaire" style="">
+                            {% for commentaire in entity.commentaires %}
+                                <div class="commentaire_contenu">
+                                    <p>
+                                        Ecrit le : {{ commentaire.date|date('d/m/Y à  H:i') }}<br />
+                                        Pseudo : {{ commentaire.auteur }} 
+                                    </p>
+                                    <p style="margin-left : 30px; ">
+                                        Commentaire : 
+                                        {{ commentaire.contenu }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+                
+                <footer class="news_footer">
+                    
+                    <p>
+                        {#<span>Mots-Clés : #Ajax</span>#}
+                        Ecrit le  {{ entity.date|date('d/m/Y à  H:i') }}
+                        
+                    </p>
+                </footer>
+            </div>
 
             {#
             <a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>#}
-            {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+            
+
+            {#{{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}#}
 
 
             {# génération du bouton commentaire #}
-            <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
+            {#<button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>#}
 
       
-            {% for commentaire in entity.commentaires %}
+            {#{% for commentaire in entity.commentaires %}
                 <br />{{ commentaire.contenu }}
-            {% endfor %}
-        </div>
+            {% endfor %}#}
+        </article>
     {% endfor %}
 {% endblock %}

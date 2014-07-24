@@ -1,4 +1,4 @@
-{% for key, entity in entities %}
+{#{% for key, entity in entities %}
     <h2>{{ entity.titre }}</h2>
     <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
     <p>
@@ -11,4 +11,36 @@
 
     {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
 
-{% endfor %}
+{% endfor %}#}
+    {% for key, entity in entities %}
+        <div class="news">
+            <p> {{ entity.commentaires | length }}  commentaires </p> 
+              
+
+            <h2>{{ entity.titre }}</h2>
+            <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+            <p>
+                <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}"
+                    src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                    entity.image.url) }}" style="float:left; margin-right: 15px;" />
+                <span style="text-align: center;">
+                    {{  entity.contenu|raw|nl2br|markdown }}
+                </span>
+            </p>
+            <hr />
+
+            {#
+            <a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>#}
+            {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+
+
+            {# génération du bouton commentaire #}
+            <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
+
+      
+            {% for commentaire in entity.commentaires %}
+                <br />{{ commentaire.contenu }}
+            {% endfor %}
+        </div>
+    {% endfor %}

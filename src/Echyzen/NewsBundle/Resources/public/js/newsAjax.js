@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
 	newsAjax = {
 		
 		// selecteur pour le click rubrique
-		baliseRubrique : '#rubrique li',
+		baliseRubrique : '#rubrique a',
 		// selecteur pour le fonctionnement du TopMenu
 		menuTop : document.getElementById( 'top_menu' ),
 		showTop : document.getElementsByClassName( 'showTop' ),
@@ -15,32 +15,38 @@ jQuery(document).ready(function ($) {
 		classLoading : 'loading',
 		
 		// selecteur de la partie ou sont afficher les news
-		baliseNews : "#news1",
+		baliseNews : "#news_container",
 		
 		// selecteur pour reconnaitre les formulaires soumis par ajax
 		baliseAjaxForm : '.ajax_form',
 		
-		newsByRubrique: function() {
+		newsByRubrique: function(event) {
 			
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
 			
 			$(that.baliseRubrique).click(function(e) {
-				
-				var url = Routing.generate('news_by_rubrique', { id: this.value });
-
+			e.preventDefault();
+			//var url = Routing.generate('news_by_rubrique', { id: this.value });
+			alert($(this).attr('value'));
+			alert($(this).attr('href'));
+			//permet de modifier url en passant des données
+			history.pushState({key: 'value'}, 'titre', $(this).attr('href'));
 				$.ajax({
 					type: 'GET',
-					url: url,
+					url: $(this).attr('href'),//'/Symfony/web/app_dev.php/news/7/rubrique', //url,
 					timeout: 3000,
 					success: function (data) {
+						alert('lol');
 						$(that.baliseNews).html(data);
 					},   
 					error: function () {
 						alert('La requête n\'a pas abouti');
 					}
 				})
+
 			});
+
 			
 		}, // function newsByRubrique()
 		
@@ -48,7 +54,8 @@ jQuery(document).ready(function ($) {
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
 			
-			$(that.baliseShowMenu).click(function() {
+			//$(that.baliseShowMenu).click(function() {
+			$('body').delegate(that.baliseShowMenu,'click',function(e) {
 				var url = Routing.generate('news_create_commentaire', { id: this.value });/*'{{ path("news_create_commentaire", {'id': 'id'}) }}'; */
 
                 $(that.baliseMenuContainer).append('<div class="' + that.classLoading + '"></div>');
@@ -98,12 +105,58 @@ jQuery(document).ready(function ($) {
 				});
 				
 			});
-		} // function newsCreateCommentaire()
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}, // function newsCreateCommentaire()
+		init : function() {
+						// permet d'avoir accès à la class dans la fonction click
+			var that = this;
 		
-		
+			//evenement a écouter lors du changement de page par le navigateur (des qu'il y a un back ou un next dans l'historique avec info rentrer dans un pushState
+			window.onpopstate = function(event) {
+				/*if(event.state == null) {
+					$.ajax({
+						type: 'GET',
+						url: 'http://localhost/Nouveau%20dossier/testbis.html',
+						timeout: 3000,
+						success: function (data) {
+							$('.container').html(data);
+						},   
+						error: function () {
+							alert('La requête n\'a pas abouti');
+						}
+					})
+					alert('se marche');
+				} else {*/
+					alert(document.location.pathname);
+						$.ajax({
+							type: 'GET',
+							url: document.location.pathname,
+							timeout: 3000,
+							success: function (data) {
+								$(that.baliseNews).html(data);
+							},   
+							error: function () {
+								alert('La requête n\'a pas abouti');
+							}
+						})
+				//}
+			}
+		}
+	
 	} // class newsAjax
 	
-	
+	newsAjax.init();
 	newsAjax.newsByRubrique();
 	newsAjax.newsCreateCommentaire();
+	
+
 });
