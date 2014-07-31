@@ -41,6 +41,11 @@ class NewsController extends Controller
         if($request->getMethod() == 'POST') {
             //récupération et donc hydration du formulaire par le client
             $form->handleRequest($request);
+
+            $parser = $this->container->get('echyzennews.parse');
+             $news->setContenu($parser->parse($news->getContenu()));
+
+             
             // vérification de la validité
             if($form->isValid()) {
                 // récupération de l'entityManager

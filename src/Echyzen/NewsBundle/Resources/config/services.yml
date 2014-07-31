@@ -1,5 +1,6 @@
 parameters:
     twitter_name: echyzenWebsite
+    bbcode_to_html : { gras : i, ital : i }
 
 services:
     echyzen_news.socialbar:
@@ -7,3 +8,12 @@ services:
         arguments: [%twitter_name%]
         tags:
             -  { name: twig.extension }
+    echyzen_news.parse:
+        class: Echyzen\NewsBundle\Services\Parse
+        arguments: [%bbcode_to_html%]
+        tags:
+            -  { name: twig.extension }
+    echyzen_news.textparse:
+        class: Echyzen\NewsBundle\Form\TextParseType
+        tags:
+            - { name: form.type, alias: textparse }

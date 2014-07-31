@@ -53,7 +53,8 @@
                 <div class="news_mot_cle">
 
                     <p>
-                        <span style="">{{  entity.contenu|raw|nl2br|markdown}}</span>
+                        <span style="">{{  entity.contenu|parse}}</span>
+
                         <span style="float : right; color: rgba(0,0,0,0.4);
                         text-shadow: 0 0 1px rgba(0,0,0,0.1);
                         font-weight: 600;

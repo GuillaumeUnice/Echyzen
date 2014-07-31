@@ -1,4 +1,4 @@
-.sl-slider-wrapper {
+﻿.sl-slider-wrapper {
 	width: 800px;
 	height: 400px;
 	margin: 0 auto;
@@ -377,7 +377,7 @@ border-right: 52px solid transparent;
 	text-indent: -90000px;
 	margin-top: -40px;
 	cursor: pointer;
-	
+
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
 	-o-transform: rotate(45deg);
@@ -640,7 +640,3 @@ border-right: 52px solid transparent;
 	}
 
 }
-
-
-
-

@@ -22,7 +22,7 @@ class NewsType extends AbstractType
                     'multiple' => false)
             )
             ->add('titre', 'text')
-            ->add('contenu', 'textarea')
+            ->add('contenu', 'textparse')
             ->add('publication', 'checkbox', array('required' => false));
         ;
     }
