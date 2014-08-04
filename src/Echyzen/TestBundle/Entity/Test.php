@@ -5,12 +5,7 @@ namespace Echyzen\TestBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * News
- *
- * @ORM\Table()
- * @ORM\Table(name="test")
- */
+
 /**
  * Test
  * Cette classe represente la base d'une entity : Film, Livre, Video

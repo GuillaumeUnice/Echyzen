@@ -52,6 +52,7 @@ class News
     /**
     * @ORM\OneToOne(targetEntity="Echyzen\NewsBundle\Entity\Image", cascade={"persist", "remove"})
     * @ORM\JoinColumn(nullable=false)
+    * @Assert\NotBlank()
     */
     private $image;
 
@@ -61,7 +62,13 @@ class News
     private $rubrique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="articles")
+    * @var MotCle
+    * @ORM\ManyToMany(targetEntity="Echyzen\NewsBundle\Entity\MotCle", mappedBy="news", cascade={"persist"})
+    */
+    private $motCles;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
     */
     private $commentaires;
 
@@ -69,6 +76,7 @@ class News
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
+        $this->motCles = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
 
     /**
@@ -202,21 +210,25 @@ class News
      * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
      * @return News
      */
-    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    public function addCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaire)
     {
-        $this->commentaires[] = $commentaires;
-
+        $this->commentaires[] = $commentaire;
+        // on ajoute le setter pour rendre les objets cohérents
+        $commentaire->setNews($this);
         return $this;
     }
 
     /**
      * Remove commentaires
      *
-     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaires
+     * @param \Echyzen\NewsBundle\Entity\Commentaire $commentaire
      */
-    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaires)
+    public function removeCommentaire(\Echyzen\NewsBundle\Entity\Commentaire $commentaire)
     {
-        $this->commentaires->removeElement($commentaires);
+        $this->commentaires->removeElement($commentaire);
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $commentaire->setArticle(null);
     }
 
     /**
@@ -250,5 +262,28 @@ class News
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set motCles
+     *
+     * @param string $motCles
+     * @return News
+     */
+    public function setMotCles($motCles)
+    {
+        $this->motCles = $motCles;
+
+        return $this;
+    }
+
+    /**
+     * Get motCles
+     *
+     * @return string 
+     */
+    public function getMotCles()
+    {
+        return $this->motCles;
     }
 }

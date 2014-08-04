@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Echyzen\NewsBundle\Entity\FilmRepository")
-
- * @ORM\Table(name="film")
+ *
+ * @ORM\Table(name="livre")
  */
 class Livre extends Test
 {

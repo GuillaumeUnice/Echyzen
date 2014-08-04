@@ -43,7 +43,10 @@
 				<h2>Rubrique</h2>
 				<ul>
 				{% for rubrique in rubriques %}
-        			<li><a value="7" href="{{ path('news_by_rubrique', {'id': rubrique.id}) }}">{{ rubrique.nom | upper }}</a></li>
+        			<li><a value="7" href="{{ path('news_by_rubrique', {'id': rubrique.id}) }}">
+        				{{ rubrique.nom | upper }}
+        				<span style="float : right; color: pink;">{{ rubrique.co }}</span>
+        			</a></li>
     			{% endfor %}
 				</ul>
 			</div>
@@ -51,29 +54,24 @@
 			<div id="archive">
 				<h2>Archive</h2>
 				<ul>
-					<li><a href="#">Juin 2014</a></li>
+					{% for date, info in dates %}
+
+						<li><a href="{{ path('news_by_month', {'year': info.year, 'month' : info.month}) }}">
+							{{ date  }}<span style="color : pink; float : right;">{{ info.count }}</span>
+						</a></li>
+    				{% endfor %}
 				</ul>
 			</div>
 
 			<div id="mot_clé">
 				<h2>Mots-Clés</h2>
 				<ul>
-					<li><a href="#">#2D</a></li>
-					<li><a href="#">#3D</a></li>
-					<li><a href="#">#Ajax</a></li>
-					<li><a href="#">#BDD</a></li>
-					<li><a href="#">#Blender</a></li>
-					
-					<li><a href="#">#C++</a></li>
-					<li><a href="#">#Java</a></li>
-					<li><a href="#">#Javascript</a></li>
-					<li><a href="#">#Linux</a></li>
-					<li><a href="#">#PHP</a></li>
-					
-					
-					<li><a href="#">#Web</a></li>
-					<li><a href="#">#Windows</a></li>
-					
+					{% for motCle in motCles %}
+						<li><a href="{{ path('news_by_motcle', {'id': motCle.id}) }}">
+							{{ motCle.nom }}
+							<span style="color : pink; float : right;">{{ motCle.co }}</span>
+						</a></li>
+    				{% endfor %}			
 				</ul>
 			</div>			
 

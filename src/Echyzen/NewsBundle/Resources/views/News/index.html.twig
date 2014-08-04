@@ -60,7 +60,12 @@
                         font-weight: 600;
                         font-size: 1.8em;">Lire la suite...</span>
 
-                        <span class="mot_cle">Mots-Clés : #Ajax</span>
+                        <span class="mot_cle">Mots-Clés : #Ajax
+                            {% for motcle in entity.motcles %}
+                                {{ '#' ~ motcle.nom }}
+                                <br />
+                            {% endfor %}
+                        </span>
                     </p>
                    
 

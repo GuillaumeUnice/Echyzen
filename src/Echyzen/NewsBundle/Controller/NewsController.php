@@ -22,41 +22,27 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NewsController extends Controller
 {
-    
+
+    /**
+    * Page d'index des news : Affiche l'ensemble des news 
+    * A faire : par ordre de date de création
+    *
+    */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $arrray =  array();
 
-        $entities = $em->getRepository('EchyzenNewsBundle:News')->findAll();
-        $array_test = array();
-        foreach ($entities as $key => $value) {
-            $array_test[$key] = $em->getRepository('EchyzenNewsBundle:Rubrique')->find($value->getRubrique());
-        }
+        // obtenir toutes les news du plus récent au plus vieux
+        $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')
+            ->findBy(array(), array('date' => 'desc'));
 
-        $image = new Image();
-        $form = $this->createForm(new ImageType, $image);
-        $request = $this->getRequest();
-        if( $request->getMethod() == "POST") {
-            $form->handleRequest($request);
-            if($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($image);
-                $em->flush();
-            }
-        }
-
-        $rubriques = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
-
-        return $this->render('EchyzenNewsBundle:News:index.html.twig', array(
-            'entities' => $entities,
-            'test' => $array_test,
-            'rubriques' => $rubriques,
-            'form' => $form->createView(),
-        ));
-    }
+        return self::vue($array);
+    } // indexAction ()
 
     /**
      * Finds and displays a News entity.
+     *
      *
      */
     public function showAction($id)
@@ -74,78 +60,46 @@ class NewsController extends Controller
         ));
     }
 
-    /**
-     * Creates a form to delete a News entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('news_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
 
-    public function getByRubriqueAction($id) {
+    public function getByMonthAction($year, $month) {
+        $em = $this->getDoctrine()->getManager();
+        $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByMonth($year, $month);
+        // si le résultat est vide on retourne l'index
+        if($array['entities'] == null) {
+            return self::indexAction();
+        }
+
+        return self::vue($array);
+    }
+    public function getByRubriqueAction ($id)
+    {
         $em = $this->getDoctrine()->getManager();
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByRubrique($id);
-        return self::vue($array);
-        /* marche pour envoyer du JSON s'assurer que le repository return un getArrayResult()
-        $response = new JsonResponse();
-        $response->setData($entities);
-        return $response;*/
-
-        /*Je ne pense pas que cela marche
-        $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;*/
-
-        /* ce qui est maintenant dans la fonction private getVue()
-        $request = $this->getRequest();
-        if ($request->isXmlHttpRequest()){
-            $json = array();
-            $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
-                'entities' => $entities
-            ));
-
-
-            $response = new Response();
-
-            $response->setContent($json['html']);
-            $response->setStatusCode(200);
-            $response->headers->set('Content-Type', 'text/html');
-                    
-            return $response;
-        } else {
-            $rubriques = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
-            return $this->render('EchyzenNewsBundle:News:index.html.twig', array(
-                'entities' => $entities,
-                'rubriques' => $rubriques,
-            ));
-            
+        // si le résultat est vide on retourne l'index
+        if($array['entities'] == null) {
+            return self::indexAction();
         }
-        return false;*/
-
-        /*ancien
-        $lReturn = array();
-        //use renderview instead of render, because renderview returns the rendered template
-        $lReturn['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', array(
-            'entities' => $entities
-        ));
-        die($lReturn['html']);
-        return new Response(json_encode($lReturn), 200, array('Content-Type'=>'application/json'));*/
-        /*return $this->render('EchyzenNewsBundle:News:index_show.html.twig', array(
-            'entities' => $entities,
-        ));*/
-        
-       
+        return self::vue($array);     
     }
 
+    public function getByMotCleAction ($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByMotCle($id);
+        // si le résultat est vide on retourne l'index
+        if($array['entities'] == null) {
+            return self::indexAction();
+        }
+        return self::vue($array);     
+    }
+
+    /**
+    *   Fonction permettant de créer formulaire/entité et persister un commentaire lié a une news
+    *   @param $id nombre représentant l'id de la news associé a ce commentaire
+    *   TODO : vérifier le retour plutot faire la méthode comme dans self::vue qui diffère
+    *   selon la requete de type ajax ou non
+    *
+    */
     public function createCommentaireAction($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -197,25 +151,113 @@ class NewsController extends Controller
         ));
     } // createCommentaireAction()
 
+    /**
+    *   Permet de renvoyer une vue en fonction d'une requete Ajax
+    *   A faire : Eventuellement rajouter un parametre boolean qui permet de dire si l'on envoie en
+    *   JSON ou HTML
+    *   @param $array tableau contenant les variables a envoyer 
+    *       notamment $array[entities] contenant les news a charger
+    */
     private function vue($array) {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        if ($request->isXmlHttpRequest()){
-            $json = array();
-            $json['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', $array);
-
+        if ($request->isXmlHttpRequest()){ // si requete ajax alors envoie juste les news
+            $res = array();
+            $res['html'] = $this->renderView('EchyzenNewsBundle:News:index_show.html.twig', $array);
 
             $response = new Response();
-            $response->setContent($json['html']);
+            $response->setContent($res['html']);
             $response->setStatusCode(200);
             $response->headers->set('Content-Type', 'text/html');        
             return $response;
 
-        } else {
-
-            $array['rubriques'] = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueByAlph();
+        } else { // renvoie une page contenant toutes les informations
+            
+            $array['dates'] = self::getCountByMonth();
+            $array['motCles'] = $em->getRepository('EchyzenNewsBundle:News')->getCountByMotCle();
+            $array['rubriques'] = $em->getRepository('EchyzenNewsBundle:Rubrique')->getRubriqueAndCountByAlph();
             return $this->render('EchyzenNewsBundle:News:index.html.twig', $array);
             
         }
     } // getVue()
+    public function getCountByRubrique() {
+
+    } // getCountByRubrique()
+
+    /**
+    *   fonction permettant de retourner le nombre de news par mois
+    *   cad retourne un tableau ayant en clé mois&Année ex : Janvier 2014
+    *   et en valeur un array composer des clé : count, year, month
+    */
+    public function getCountByMonth() {
+        $em = $this->getDoctrine()->getManager();
+        
+        /*
+        $test = $em->getRepository('EchyzenNewsBundle:News')->getCountByMotCle();
+        die(print_r($test));*/
+
+
+
+
+
+
+
+
+        $year = 2014;
+        $month = 5;
+        $today = new \DateTime();
+        $res = array();
+
+        while(($year != date_format($today, 'Y')) || ($month <= date_format($today, 'm') )) {
+            // retourne le nombre de news présente pour un mois précis
+            $count = $em->getRepository('EchyzenNewsBundle:News')->getCountByMonth($year, $month);
+            if($count) {
+                //$subres = array($count, $year, $month);
+                $subres = array('count' => $count, 'year' => $year, 'month' => $month);
+
+                $res[self::getMonth($month) . ' ' . $year] = $subres;
+            }
+
+            if($month < 12) {
+                $month++;
+            } else {
+                $month = 0;
+                $year++;
+            }
+        }
+        return $res;
+    } // getNewsByMonth()
+
+    /**
+    * fonction permettant la "traduction" des months passage ex : 1 => Janvier
+    * @param $month nombre a traduire en mois litéral
+    */
+    private function getMonth($month) {
+        switch ($month) {
+            case 1:
+                return 'Janvier';
+            case 2:
+                return 'Fevrier';
+            case 3:
+                return 'Mars';
+            case 4:
+                return 'Avril';
+            case 5:
+                return 'Mai';
+            case 6:
+                return 'Juin';
+            case 7:
+                return 'Juillet';
+            case 8:
+                return 'Aout';
+            case 9:
+                return 'Septembre';
+            case 10:
+                return 'Octobre';
+            case 11:
+                return 'Novembre';
+            default:
+                return 'Décembre';
+        }
+    }
 }

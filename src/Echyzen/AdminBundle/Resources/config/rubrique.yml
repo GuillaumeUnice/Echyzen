@@ -4,3 +4,8 @@ admin_rubrique_liste:
 admin_rubrique_edit:
     pattern:  /edit_rubrique/{id}
     defaults: { _controller: "EchyzenAdminBundle:Rubrique:edit" }
+admin_rubrique_create:
+    pattern:  /create_rubrique
+    defaults: { _controller: "EchyzenAdminBundle:Rubrique:create" }
+    options:
+        expose: true

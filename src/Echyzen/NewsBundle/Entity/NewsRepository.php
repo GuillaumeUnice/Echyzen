@@ -15,4 +15,46 @@ class NewsRepository extends EntityRepository
 	public function getByRubrique($id) {
 		return $this->createQueryBuilder('n')->where('n.rubrique = :id')->setParameter('id', $id)->orderBy('n.date')->getQuery()->getResult();
 	}
+	public function getByMotCle($id) {
+		return $this->createQueryBuilder('n')
+			->leftJoin('n.motCles', 'm')
+			->where('m.id = :id')->setParameter('id', $id)
+			->andWhere('n.publication = 1')
+			->orderBy('n.date')
+			->getQuery()->getResult();
+	}
+	public function getByDescDate() {
+		return $this->createQueryBuilder('n')
+        ->orderBy('n.date')->getQuery()->getScalarResult();
+	}
+	public function getByMonth($year, $month) {
+		return $this->createQueryBuilder('n')
+			->where('YEAR(n.date) = :year')
+			->setParameter('year', $year)
+			->andWhere('MONTH(n.date) = :month')
+			->setParameter('month', $month)
+						->andWhere('n.publication = 1')
+            ->orderBy('n.date')->getQuery()->getResult();
+	}
+	public function getCountByMonth($year, $month) {
+
+		return $this->createQueryBuilder('n')
+			->select('count(n.id)')
+			->where('YEAR(n.date) = :year')
+			->setParameter('year', $year)
+			->andWhere('MONTH(n.date) = :month')
+			->setParameter('month', $month)
+			->andWhere('n.publication = 1')
+            ->orderBy('n.date')->getQuery()->getSingleScalarResult();
+	}
+
+	public function getCountByMotCle() {
+		return $this->createQueryBuilder('n')
+			->select('m.id', 'm.nom', 'count(m.id) as co')
+			->leftJoin('n.motCles', 'm')
+			->groupBy('m.id')
+			->where('m.id IS NOT NULL')
+			->andWhere('n.publication = 1')
+			->getQuery()->getResult();	
+	}
 }

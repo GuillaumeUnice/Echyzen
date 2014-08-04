@@ -62,6 +62,12 @@ class News
     private $rubrique;
 
     /**
+    * @Assert\NotBlank()
+    * @ORM\ManyToMany(targetEntity="Echyzen\NewsBundle\Entity\MotCle", mappedBy="news", cascade={"persist"})
+    */
+    private $motCles;
+
+    /**
     * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
     */
     private $commentaires;
@@ -70,6 +76,7 @@ class News
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
+        $this->motCles = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
 
     /**
@@ -255,5 +262,41 @@ class News
     public function getImage()
     {
         return $this->image;
+    }
+
+
+
+    /**
+     * Get motCles
+     *
+     * @return string 
+     */
+    public function getMotCles()
+    {
+        return $this->motCles;
+    }
+
+    /**
+     * Add motCles
+     *
+     * @param \Echyzen\NewsBundle\Entity\MotCle $motCles
+     * @return News
+     */
+    public function addMotCle(\Echyzen\NewsBundle\Entity\MotCle $motCles)
+    {
+        $this->motCles[] = $motCles;
+        $motCles->addNews($this);
+        return $this;
+    }
+
+    /**
+     * Remove motCles
+     *
+     * @param \Echyzen\NewsBundle\Entity\MotCle $motCles
+     */
+    public function removeMotCle(\Echyzen\NewsBundle\Entity\MotCle $motCles)
+    {
+        $this->motCles->removeElement($motCles);
+        $motCles->removeNews($this);
     }
 }

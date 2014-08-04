@@ -1,0 +1,18 @@
+admin_motcle_liste:
+    pattern:  /liste_motcle
+    defaults: { _controller: "EchyzenAdminBundle:MotCle:liste" }
+admin_motcle_edit:
+    pattern:  /edit_motcle/{id}
+    defaults: { _controller: "EchyzenAdminBundle:MotCle:edit" }
+    requirements:
+        id:    \d+
+admin_motcle_delete:
+    pattern:  /delete_motcle/{id}
+    defaults: { _controller: "EchyzenAdminBundle:MotCle:delete" }
+    requirements:
+        id:    \d+
+admin_motcle_create:
+    pattern:  /create_motcle
+    defaults: { _controller: "EchyzenAdminBundle:MotCle:create" }
+    options:
+        expose: true

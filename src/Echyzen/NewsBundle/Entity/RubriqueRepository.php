@@ -16,4 +16,18 @@ class RubriqueRepository extends EntityRepository
 	public function getRubriqueByAlph() {
 		return $this->createQueryBuilder('r')->orderBy('r.nom')->getQuery()->getResult();
 	}
+
+	/**
+	*	@return id & name of rubrique and count of news
+	*	
+	*/
+	public function getRubriqueAndCountByAlph() {
+		return $this->createQueryBuilder('r')
+			->select('r.id', 'r.nom','COUNT(n.id) as co')
+			->leftJoin('r.news', 'n')
+			->groupBy('r.id')
+			->where('n.id IS NOT NULL')
+			->andWhere('n.publication = 1')
+			->orderBy('r.nom')->getQuery()->getResult();
+	}
 }

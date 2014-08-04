@@ -5,19 +5,18 @@ namespace Echyzen\AdminBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Echyzen\NewsBundle\Entity\Rubrique;
-use Echyzen\NewsBundle\Form\RubriqueType;
-use Echyzen\NewsBundle\Form\RubriqueEditType;
+use Echyzen\NewsBundle\Entity\MotCle;
+use Echyzen\NewsBundle\Form\MotCleType;
 
-class RubriqueController extends Controller
+class MotCleController extends Controller
 {
     public function listeAction()
     {
          $em = $this->getDoctrine()->getManager();
 
-        //Mise en place du formulaire d'ajout de rubrique
-        $rubrique = new Rubrique();
-        $form = $this->createForm(new RubriqueType(), $rubrique);
+        //Mise en place du formulaire d'ajout de mot-clé
+        $motCle = new MotCle();
+        $form = $this->createForm(new MotCleType(), $motCle);
         
         //recuperation du type d'envoie de donnée $_POST || $_GET
         $request = $this->getRequest();
@@ -29,25 +28,48 @@ class RubriqueController extends Controller
                 // récupération de l'entityManager
                 $em = $this->getDoctrine()->getManager();
                 
-                $em->persist($rubrique);
+                $em->persist($motCle);
                 $em->flush();
             }
         }
         
-        // recupération de l'ensemble des rubriques
-        $entities = $em->getRepository('EchyzenNewsBundle:Rubrique')->findAll();
+        // recupération de l'ensemble des mot-clés
+        $entities = $em->getRepository('EchyzenNewsBundle:MotCle')->findAll();
 
-        return $this->render('EchyzenAdminBundle:Rubrique:liste.html.twig', array(
+        return $this->render('EchyzenAdminBundle:MotCle:liste.html.twig', array(
             'entities' => $entities,
             'form' => $form->createView(),
         ));
     }
 
+    /**
+     * Deletes a MotCle entity.
+     *
+     */
+    public function deleteAction($id)
+    {
+
+        
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('EchyzenNewsBundle:MotCle')->find($id);
+
+            if (!$entity) {
+                // Pour le moment une exception mais par la suite une redirection ;)
+                throw $this->createNotFoundException('Unable to find MotCle entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+
+
+        return $this->redirect($this->generateUrl('admin_motcle_liste'));
+    }
+
     public function createAction() {
          $em = $this->getDoctrine()->getManager();
-        //Mise en place du formulaire d'ajout de rubrique
-        $rubrique = new Rubrique();
-        $form = $this->createForm(new RubriqueType(), $rubrique);
+        //Mise en place du formulaire d'ajout de mot-cl"
+        $motCle = new MotCle();
+        $form = $this->createForm(new MotCleType(), $motCle);
                 //recuperation du type d'envoie de donnée $_POST || $_GET
         $request = $this->getRequest();
 
@@ -56,37 +78,36 @@ class RubriqueController extends Controller
             //récupération et donc hydration du formulaire par le client
             $form->handleRequest($request);
             
-            die('rubrique nom : ' . $rubrique->getNom() . '  image : ' . $rubrique->getImage()->getUrl());
             // vérification de la validité
             if($form->isValid()) {
                 
                 // récupération de l'entityManager
                 $em = $this->getDoctrine()->getManager();
                 
-                $em->persist($rubrique);
+                $em->persist($motCle);
                 
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    'La rubrique a été enregistré'
+                    'Le mot-clé a été enregistré'
                 );
             }
         }
-        return $this->render('EchyzenAdminBundle:Rubrique:create.html.twig', array(
+        return $this->render('EchyzenAdminBundle:MotCle:create.html.twig', array(
             'form' => $form->createView(),
         ));
 
     }
      /**
-     * Displays a form to edit an existing Rubrique entity.
+     * Displays a form to edit an existing MotCle entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EchyzenNewsBundle:Rubrique')->find($id);
+        $entity = $em->getRepository('EchyzenNewsBundle:MotCle')->find($id);
  
         if (!$entity) {
             $this->get('session')->getFlashBag()->add(
@@ -94,11 +115,11 @@ class RubriqueController extends Controller
                     'Page inexistante'
                 );
 
-                return $this->redirect($this->generateUrl('admin_rubrique_liste'));
+                return $this->redirect($this->generateUrl('admin_motcle_liste'));
         }
         
-        //Mise en place du formulaire d'ajout de rubrique
-        $form = $this->createForm(new RubriqueEditType, $entity);
+        //Mise en place du formulaire d'ajout de mot-clé
+        $form = $this->createForm(new MotCleType, $entity);
 
        
         //recuperation du type d'envoie de donnée $_POST || $_GET
@@ -118,14 +139,14 @@ class RubriqueController extends Controller
                     'Vos changements ont été sauvegardés!'
                 );
 
-                 return $this->redirect($this->generateUrl('admin_rubrique_liste'));
+                 return $this->redirect($this->generateUrl('admin_motcle_liste'));
             }
         }
 
        // $editForm = $this->createEditForm($entity);
         
 
-        return $this->render('EchyzenAdminBundle:Rubrique:edit.html.twig', array(
+        return $this->render('EchyzenAdminBundle:MotCle:edit.html.twig', array(
             'form' => $form->createView(),
          //   'edit_form'   => $editForm->createView(),
         ));

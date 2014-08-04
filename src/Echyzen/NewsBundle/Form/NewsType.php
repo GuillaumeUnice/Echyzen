@@ -23,7 +23,15 @@ class NewsType extends AbstractType
             )
             ->add('titre', 'text')
             ->add('contenu', 'textparse')
-            ->add('publication', 'checkbox', array('required' => false));
+            ->add('publication', 'checkbox', array('required' => false))
+            /*->add('motcles', 'collection', array('type'         => new MotCleType(),
+                                              'allow_add'    => true,
+                                              'allow_delete' => true));*/
+            ->add('motcles', 'entity', array('class' => 'EchyzenNewsBundle:MotCle',
+                  'property' => 'nom',
+                  'multiple' => true,
+                  'by_reference' => false,
+                  ));
         ;
     }
     

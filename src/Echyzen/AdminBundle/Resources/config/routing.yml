@@ -1,6 +1,9 @@
 admin_rubrique:
     resource: "@EchyzenAdminBundle/Resources/config/rubrique.yml"
     prefix:   /rubrique
+admin_motcle:
+    resource: "@EchyzenAdminBundle/Resources/config/motcle.yml"
+    prefix:   /motcle
 admin_news:
     resource: "@EchyzenAdminBundle/Resources/config/news.yml"
     prefix:   /news

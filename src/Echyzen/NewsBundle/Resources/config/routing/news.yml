@@ -10,11 +10,32 @@ news_show:
 news_by_rubrique:
     pattern:  /{id}/rubrique
     defaults: { _controller: "EchyzenNewsBundle:News:getByRubrique" }
+    requirements:
+        id:    \d+
+    options:
+        expose: true
+
+news_by_month:
+    pattern:  /{year}/{month}/date
+    defaults: { _controller: "EchyzenNewsBundle:News:getByMonth" }
+    requirements:
+        year:    \d+
+        month:   \d+
+    options:
+        expose: true
+
+news_by_motcle:
+    pattern:  /{id}/mot_cle
+    defaults: { _controller: "EchyzenNewsBundle:News:getByMotCle" }
+    requirements:
+        id:    \d+
     options:
         expose: true
 
 news_create_commentaire:
     pattern: /create_commentaire/{id}
     defaults: { _controller: "EchyzenNewsBundle:News:createCommentaire" }
+    requirements:
+        id:    \d+
     options:
         expose: true

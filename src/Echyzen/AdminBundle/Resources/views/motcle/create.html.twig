@@ -1,0 +1,14 @@
+{# src/Echyzen/Admin/Resources/views/motcle/create.html.twig #}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+
+<h2>Mot-Clé creation</h2>
+<form id="lol" method="post" class="ajax_form" {{ form_enctype(form) }} action="{{ path('admin_motcle_create') }}">
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+
