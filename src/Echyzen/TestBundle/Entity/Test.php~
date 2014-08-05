@@ -1,18 +1,22 @@
 <?php
 
-namespace Echyzen\NewsBundle\Entity;
+namespace Echyzen\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
- * News
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Echyzen\NewsBundle\Entity\NewsRepository")
- * @ORM\Table(name="news")
+ * Test
+ * Cette classe represente la base d'une entity : Film, Livre, Video
+ * Elle est donc abstraite
+ * @ORM\Entity
+ * @ORM\Table(name="test")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap( {"film" = "Film", "livre" = "Livre"} )
  */
-class News
+abstract class Test
 {
     /**
      * @var integer
@@ -23,12 +27,19 @@ class News
      */
     private $id;
 
-    /**
+	/**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+	
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateSortie", type="datetime")
+     */
+    private $dateSortie;
 
     /**
      * @var string
@@ -36,14 +47,28 @@ class News
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
-
+	
     /**
      * @var string
      *
-     * @ORM\Column(name="intro", type="text")
+     * @ORM\Column(name="avis", type="string", length=255)
      */
-    private $intro;
-
+    private $avis;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="publicConcerne", type="string", length=255)
+     */
+    private $publicConcerne;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="adaptation", type="string", length=255)
+     */
+    private $adaptation;
+	
     /**
      * @var string
      *
@@ -63,16 +88,7 @@ class News
     */
     private $image;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="Echyzen\NewsBundle\Entity\Rubrique", inversedBy="news")
-    */
-    private $rubrique;
 
-    /**
-    * @Assert\NotBlank()
-    * @ORM\ManyToMany(targetEntity="Echyzen\NewsBundle\Entity\MotCle", mappedBy="news", cascade={"persist"})
-    */
-    private $motCles;
 
     /**
     * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
@@ -83,7 +99,6 @@ class News
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
-        $this->motCles = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
 
     /**
@@ -269,41 +284,5 @@ class News
     public function getImage()
     {
         return $this->image;
-    }
-
-
-
-    /**
-     * Get motCles
-     *
-     * @return string 
-     */
-    public function getMotCles()
-    {
-        return $this->motCles;
-    }
-
-    /**
-     * Add motCles
-     *
-     * @param \Echyzen\NewsBundle\Entity\MotCle $motCles
-     * @return News
-     */
-    public function addMotCle(\Echyzen\NewsBundle\Entity\MotCle $motCles)
-    {
-        $this->motCles[] = $motCles;
-        $motCles->addNews($this);
-        return $this;
-    }
-
-    /**
-     * Remove motCles
-     *
-     * @param \Echyzen\NewsBundle\Entity\MotCle $motCles
-     */
-    public function removeMotCle(\Echyzen\NewsBundle\Entity\MotCle $motCles)
-    {
-        $this->motCles->removeElement($motCles);
-        $motCles->removeNews($this);
     }
 }

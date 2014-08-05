@@ -48,16 +48,20 @@ class NewsController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $array = array();
+        $array['entities']/*$entity*/ = $em->getRepository('EchyzenNewsBundle:News')
+            ->findBy(array('id' => $id));
 
-        $entity = $em->getRepository('EchyzenNewsBundle:News')->find($id);
+           // die($array['entities']->getContenu());
 
-        if (!$entity) {
+        if (!$array['entities']) {
             throw $this->createNotFoundException('Unable to find News entity.');
         }
 
-        return $this->render('EchyzenNewsBundle:News:show.html.twig', array(
+        return self::vue($array);
+        /*return $this->render('EchyzenNewsBundle:News:show.html.twig', array(
             'entity'      => $entity,
-        ));
+        ));*/
     }
 
 

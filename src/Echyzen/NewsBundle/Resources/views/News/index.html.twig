@@ -11,6 +11,14 @@
         $('.news .news_titre').on('click', function() {
             
             $(this).parent().find('.tests').slideToggle("slow");
+            if($(this).parent().find('.r').is(":visible")) {
+                $(this).parent().find('.r').hide();
+            } else {
+                
+                $(this).parent().find('.r').show();  
+            }
+            
+
             /*alert($(this).parent().attr('value'));
             if($(this).parent().attr('value') == 1) {
 
@@ -32,9 +40,7 @@
 {% endblock %}
 
 {% block echyzen_news_body %}
-   {#
-    <a class="iframe" rel="mybox" href="http://www.zalando.fr/"> Clique ici pour test fancyBox!</a>#}
-   
+
     {% for key, entity in entities %}
         <article class="news" value="0">
 
@@ -52,10 +58,19 @@
 
                 <div class="news_mot_cle">
 
-                    <p>
-                        <span style="">{{  entity.contenu|parse}}</span>
+                    <p class="intro">
 
-                        <span style="float : right; color: rgba(0,0,0,0.4);
+                        
+                            {% if entity.intro is empty %}
+                                
+                               <span class="r"> {{ entity.contenu | truncate(200, true, '...') }}<span >
+                            {% else %}    
+                                <span >{{  entity.intro|parse}}</span>
+                            {% endif %}
+                            
+                        
+
+                        <span class="newsShow" style="float : right; color: rgba(0,0,0,0.4);
                         text-shadow: 0 0 1px rgba(0,0,0,0.1);
                         font-weight: 600;
                         font-size: 1.8em;">Lire la suite...</span>
@@ -71,6 +86,7 @@
 
 
                     <div class="tests">
+                        {{ entity.contenu }}
                         <hr />
                         <div class="news_button">
                             {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}

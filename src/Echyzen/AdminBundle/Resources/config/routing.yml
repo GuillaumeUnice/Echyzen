@@ -7,3 +7,6 @@ admin_motcle:
 admin_news:
     resource: "@EchyzenAdminBundle/Resources/config/news.yml"
     prefix:   /news
+admin_test:
+    resource: "@EchyzenAdminBundle/Resources/config/test.yml"
+    prefix:   /test

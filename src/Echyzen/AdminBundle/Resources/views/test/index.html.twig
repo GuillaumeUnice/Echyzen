@@ -1,0 +1,12 @@
+{# src/Echyzen/Admin/Resources/views/news/index.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body %}
+	<a href="{{ path('admin_test_liste', { 'type': 'film' }) }}">Film</a>
+	<a href="{{ path('admin_test_liste', { 'type': 'livre' }) }}">Livre</a>
+	<a href="{{ path('admin_test_liste', { 'type': 'video' }) }}">Video</a>
+	{#<a href="{{ path('admin_livre_liste') }}">Livre</a>
+	<a href="{{ path('admin_video_liste') }}">Video</a>#}
+	
+{% endblock %}

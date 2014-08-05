@@ -1,0 +1,57 @@
+{# src/Echyzen/Admin/Resources/views/news/liste.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Publication</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for key, entity in entities %}
+            
+
+
+            <tr>
+                <td><a href="{{ path('test_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.titre }}</td>
+                <td>{{ entity.publication }}l</td>
+                <td>
+                <ul>
+                    <li>
+                        <a class="iframe" href="{{ path('admin_test_edit', { 'id': entity.id }) }}">Edit</a>
+                        
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_test_delete', { 'id': entity.id }) }}">Delete</a>
+                        {#<a href="{{ path('news_show', { 'id': entity.id }) }}">Show</a>#}
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_test_create', { 'type' : type }) }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+
+{% endblock %}

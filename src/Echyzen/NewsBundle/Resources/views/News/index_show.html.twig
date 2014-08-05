@@ -1,3 +1,15 @@
+
+  <script type="text/javascript" >
+    jQuery(document).ready(function ($) {
+        $('.tests').each(function( index ) {
+            $(this).hide();
+        });
+        $('.news .news_titre').on('click', function() {    
+            $(this).parent().find('.tests').slideToggle("slow");
+        }) ;
+    });
+  </script>
+
   {% for key, entity in entities %}
         <article class="news" value="0">
 

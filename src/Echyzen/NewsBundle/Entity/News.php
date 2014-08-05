@@ -40,6 +40,13 @@ class News
     /**
      * @var string
      *
+     * @ORM\Column(name="intro", type="text")
+     */
+    private $intro;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="contenu", type="text")
      */
     private $contenu;
@@ -298,5 +305,28 @@ class News
     {
         $this->motCles->removeElement($motCles);
         $motCles->removeNews($this);
+    }
+
+    /**
+     * Set intro
+     *
+     * @param string $intro
+     * @return News
+     */
+    public function setIntro($intro)
+    {
+        $this->intro = $intro;
+
+        return $this;
+    }
+
+    /**
+     * Get intro
+     *
+     * @return string 
+     */
+    public function getIntro()
+    {
+        return $this->intro;
     }
 }

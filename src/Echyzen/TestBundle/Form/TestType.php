@@ -1,12 +1,13 @@
 <?php
 
-namespace Echyzen\NewsBundle\Form;
+namespace Echyzen\TestBundle\Form;
 
+use Echyzen\NewsBundle\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class NewsType extends AbstractType
+class TestType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -16,23 +17,14 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('image', new ImageType(), array('required' => true))
-            ->add('rubrique', 'entity', array(
-                    'class'    => 'EchyzenNewsBundle:Rubrique',
-                    'property' => 'nom',
-                    'multiple' => false)
-            )
+            
             ->add('titre', 'text')
-            ->add('intro', 'textparse')
+            ->add('avis', 'text')
+            ->add('dateSortie', 'datetime')
+            ->add('publicConcerne', 'text')
+            ->add('adaptation', 'text')
             ->add('contenu', 'textparse')
             ->add('publication', 'checkbox', array('required' => false))
-            /*->add('motcles', 'collection', array('type'         => new MotCleType(),
-                                              'allow_add'    => true,
-                                              'allow_delete' => true));*/
-            ->add('motcles', 'entity', array('class' => 'EchyzenNewsBundle:MotCle',
-                  'property' => 'nom',
-                  'multiple' => true,
-                  'by_reference' => false,
-                  ));
         ;
     }
     
@@ -42,7 +34,7 @@ class NewsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Echyzen\NewsBundle\Entity\News'
+            'data_class' => 'Echyzen\TestBundle\Entity\Test'
         ));
     }
 
@@ -51,6 +43,6 @@ class NewsType extends AbstractType
      */
     public function getName()
     {
-        return 'echyzen_newsbundle_news';
+        return 'echyzen_testbundle_test';
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Film
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Echyzen\NewsBundle\Entity\FilmRepository")
+ * @ORM\Entity(repositoryClass="Echyzen\TestBundle\Entity\LivreRepository")
  *
  * @ORM\Table(name="livre")
  */
@@ -37,5 +37,75 @@ class Livre extends Test
     private $version;
 
 
+
+
+    /**
+     * Set auteur
+     *
+     * @param string $auteur
+     * @return Livre
+     */
+    public function setAuteur($auteur)
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    /**
+     * Get auteur
+     *
+     * @return string 
+     */
+    public function getAuteur()
+    {
+        return $this->auteur;
+    }
+
+    /**
+     * Set edition
+     *
+     * @param string $edition
+     * @return Livre
+     */
+    public function setEdition($edition)
+    {
+        $this->edition = $edition;
+
+        return $this;
+    }
+
+    /**
+     * Get edition
+     *
+     * @return string 
+     */
+    public function getEdition()
+    {
+        return $this->edition;
+    }
+
+    /**
+     * Set version
+     *
+     * @param string $version
+     * @return Livre
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return string 
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
 
 }

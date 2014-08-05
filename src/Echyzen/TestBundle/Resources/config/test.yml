@@ -1,0 +1,8 @@
+test:
+    pattern:  /
+    defaults: { _controller: "EchyzenTestBundle:Test:index" }
+test_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EchyzenTestBundle:Test:show" }
+    requirements:
+        id:    \d+

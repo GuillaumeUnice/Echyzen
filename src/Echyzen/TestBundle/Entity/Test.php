@@ -100,6 +100,8 @@ abstract class Test
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
+    
+
 
     /**
      * Get id
@@ -284,5 +286,97 @@ abstract class Test
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set dateSortie
+     *
+     * @param \DateTime $dateSortie
+     * @return Test
+     */
+    public function setDateSortie($dateSortie)
+    {
+        $this->dateSortie = $dateSortie;
+
+        return $this;
+    }
+
+    /**
+     * Get dateSortie
+     *
+     * @return \DateTime 
+     */
+    public function getDateSortie()
+    {
+        return $this->dateSortie;
+    }
+
+    /**
+     * Set avis
+     *
+     * @param string $avis
+     * @return Test
+     */
+    public function setAvis($avis)
+    {
+        $this->avis = $avis;
+
+        return $this;
+    }
+
+    /**
+     * Get avis
+     *
+     * @return string 
+     */
+    public function getAvis()
+    {
+        return $this->avis;
+    }
+
+    /**
+     * Set publicConcerne
+     *
+     * @param string $publicConcerne
+     * @return Test
+     */
+    public function setPublicConcerne($publicConcerne)
+    {
+        $this->publicConcerne = $publicConcerne;
+
+        return $this;
+    }
+
+    /**
+     * Get publicConcerne
+     *
+     * @return string 
+     */
+    public function getPublicConcerne()
+    {
+        return $this->publicConcerne;
+    }
+
+    /**
+     * Set adaptation
+     *
+     * @param string $adaptation
+     * @return Test
+     */
+    public function setAdaptation($adaptation)
+    {
+        $this->adaptation = $adaptation;
+
+        return $this;
+    }
+
+    /**
+     * Get adaptation
+     *
+     * @return string 
+     */
+    public function getAdaptation()
+    {
+        return $this->adaptation;
     }
 }

@@ -1,0 +1,23 @@
+admin_test_index:
+    pattern:  /
+    defaults: { _controller: "EchyzenAdminBundle:Test:index" }
+admin_test_liste:
+    pattern:  /liste_test/{type}
+    defaults: { _controller: "EchyzenAdminBundle:Test:liste" }
+    requirements:
+        type:    (film|livre|video)
+admin_test_create:
+    pattern:  /create_test/{type}
+    defaults: { _controller: "EchyzenAdminBundle:Test:create" }
+    requirements:
+        type:    (film|livre|video)
+admin_test_edit:
+    pattern:  /edit_test/{id}
+    defaults: { _controller: "EchyzenAdminBundle:Test:edit" }
+    requirements:
+        id:    \d+
+admin_test_delete:
+    pattern:  /delete_test/{id}
+    defaults: { _controller: "EchyzenAdminBundle:Test:delete" }
+    requirements:
+        id:    \d+

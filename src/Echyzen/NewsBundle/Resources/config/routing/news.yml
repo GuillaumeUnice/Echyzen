@@ -5,6 +5,8 @@ news:
 news_show:
     pattern:  /{id}/show
     defaults: { _controller: "EchyzenNewsBundle:News:show" }
+    requirements:
+        id:    \d+
 
 #ajout par moi
 news_by_rubrique:

@@ -1,3 +1,6 @@
 echyzen_test_homepage:
     path:     /hello/{name}
     defaults: { _controller: EchyzenTestBundle:Default:index }
+EchyzenTestBundle_test:
+    resource: "@EchyzenTestBundle/Resources/config/test.yml"
+    prefix:   /test
