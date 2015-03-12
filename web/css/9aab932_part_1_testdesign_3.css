@@ -1,0 +1,67 @@
+#test_container {
+position: relative;
+	left:0px;
+	float: left;
+	width: 80%;
+	word-wrap: break-word;
+	padding-right : 10px;
+	border-right: 10px rgba(196,20,20,1) double;
+	min-height : 800px;
+}
+#test_container p {
+	padding : 0px 10px;
+}
+/* test categorie */
+#test_categorie {
+	width: 18%;
+	position: fixed;
+	right: 0px;
+	float: right;
+	margin-right : 30px;
+}
+
+#test_categorie div {
+	padding : 0px 10px;
+}
+
+#test_categorie div h2 {
+	margin: 8px 0px 0px 0px;
+	color: rgba(0,0,0,0.4);
+	text-shadow: 0 0 1px rgba(0,0,0,0.1);
+	font-weight: 300;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+#test_categorie ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#test_categorie ul li a, #test_categorie ul li span{
+	display: block;
+	padding: 0.5em 0.5em 0.5em 0.6em;
+	outline: none;
+	box-shadow: inset 0 -1px rgba(0,0,0,0.2);
+	color: rgb(243, 239, 224);
+	text-transform: uppercase;
+	text-shadow: 0 0 1px rgba(255,255,255,0.1);
+	letter-spacing: 1px;
+	font-weight: 400;
+	-webkit-transition: background 0.3s, box-shadow 0.3s;
+	transition: background 0.3s, box-shadow 0.3s;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 0.75em;
+}
+
+#test_categorie ul li:first-child a, #test_categorie ul li:first-child span {
+	box-shadow: inset 0 -1px rgba(0,0,0,0.2), inset 0 1px rgba(0,0,0,0.2);
+}
+#test_categorie ul li span { text-decoration: underline; }
+#test_categorie ul li a:hover, .st-menu ul li span:hover {
+	background: rgba(0,0,0,0.2);
+	box-shadow: inset 0 -1px rgba(0,0,0,0);
+	color: #fff;
+}
