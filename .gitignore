@@ -8,3 +8,9 @@ app/config/parameters.yml
 tuto.docx
 web/bundles/
 web/config.php
+web/.sass-cache/*
+web/assetic/*
+web/css/*
+web/lol/*
+web/uploads/img/*
+web\js\tinymce\*
