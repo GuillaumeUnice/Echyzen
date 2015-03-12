@@ -1,5 +1,20 @@
-/app/bootstrap*
-/app/cache/*
-/app/logs/*
-/vendor/
-/app/config/parameters.yml
+app/bootstrap*
+app/cache/*
+app/logs/*
+vendor/*
+Old/*
+app/config/parameters.yml
+tuto.docx
+web/bundles/
+web/config.php
+
+Mettre en place parameters.yml.dist :
+-Mettre valeur par défault dans parameters.yml.dist
+-Ajouter a gitignore : parameters.yml
+
+-Ajouter a gitignore web/bundles, question.txt
+-Supprimer nav.php
+
+-Move web/config.php to app/config...(cf Openclassroom)
+
+-Ajouter a gitignore le cache et les vendors
