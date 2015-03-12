@@ -11,5 +11,9 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
-    locale:            en
+    locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    ruby: 'C:\Ruby\bin\ruby'
+    compass: 'C:\Ruby\bin\compass'
+    sass:  'C:\Ruby\bin\sass'
