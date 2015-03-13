@@ -67,12 +67,15 @@ class TestController extends Controller
                 throw $this->createNotFoundException('Unable to find Test entity.');
             }
             
-            $type = self::getChildShortClassName(entity);
+            $type = self::getChildShortClassName($entity);
             
             
             $em->remove($entity);
             $em->flush();
-
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Le Test a été supprimé'
+            );
 
         return $this->redirect($this->generateUrl('admin_test_liste', array( 'type' => $type)));
     }
@@ -98,6 +101,7 @@ class TestController extends Controller
 
             //récupération et donc hydration du formulaire par le client
             $form->handleRequest($request);
+
             
             // vérification de la validité
             if($form->isValid()) {

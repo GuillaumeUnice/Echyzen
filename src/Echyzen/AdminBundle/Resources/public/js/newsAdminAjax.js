@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
 	
 	} // class newsAjax
 	
-	newsAjax.newsCreateRubrique();
+	//newsAjax.newsCreateRubrique();
 	
 
 });

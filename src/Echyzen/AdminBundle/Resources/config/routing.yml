@@ -10,3 +10,6 @@ admin_news:
 admin_test:
     resource: "@EchyzenAdminBundle/Resources/config/test.yml"
     prefix:   /test
+admin_genre:
+    resource: "@EchyzenAdminBundle/Resources/config/genre.yml"
+    prefix:   /genre

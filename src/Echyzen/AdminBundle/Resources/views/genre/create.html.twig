@@ -1,0 +1,14 @@
+{# src/Echyzen/Admin/Resources/views/genre/create.html.twig #}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+
+<h2>Genre creation</h2>
+<form method="post" class="ajax_form" {{ form_enctype(form) }} action="{{ path('admin_genre_create') }}">
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+

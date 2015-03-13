@@ -1,0 +1,18 @@
+admin_genre_liste:
+    pattern:  /liste_genre
+    defaults: { _controller: "EchyzenAdminBundle:Genre:liste" }
+admin_genre_edit:
+    pattern:  /edit_genre/{id}
+    defaults: { _controller: "EchyzenAdminBundle:Genre:edit" }
+    requirements:
+        id:    \d+
+admin_genre_delete:
+    pattern:  /delete_genre/{id}
+    defaults: { _controller: "EchyzenAdminBundle:Genre:delete" }
+    requirements:
+        id:    \d+
+admin_genre_create:
+    pattern:  /create_genre
+    defaults: { _controller: "EchyzenAdminBundle:Genre:create" }
+    options:
+        expose: true

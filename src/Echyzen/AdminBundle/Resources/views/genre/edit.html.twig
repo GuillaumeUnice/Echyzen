@@ -1,0 +1,15 @@
+{# src/Echyzen/Admin/Resources/views/genre/edit.html.twig #}
+
+{% extends "EchyzenAdminBundle::layout.html.twig" %}
+
+{% block body -%}
+    <h1>Genre Edition</h1>
+
+    <h2>Genre Edition</h2>
+    <form method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit" />
+    </form>
+
+    <a href="{{ path('admin_genre_liste') }}">Retour</a>
+    {% endblock %}
