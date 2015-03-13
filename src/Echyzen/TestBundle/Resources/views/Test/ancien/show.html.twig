@@ -1,0 +1,17 @@
+{% extends "EchyzenTestBundle::layout.html.twig" %}
+
+{% block echyzen_test_body %}
+    <h2>{{ entity.titre }}</h2>
+    <p>Ecrit le  {{ entity.date|date('d/m/Y à  H\hi') }}</p>
+    <p>
+	    <span style="text-align: center;">
+	        {{  entity.contenu|parse }}
+	    </span>
+	    {% for val in entity.genres %}
+	    	val.nom
+	    {% endfor %}
+	</p>
+	<hr />
+
+
+{% endblock %}

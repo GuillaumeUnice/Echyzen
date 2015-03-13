@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Test
  * Cette classe represente la base d'une entity : Film, Livre, Video
  * Elle est donc abstraite
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Echyzen\TestBundle\Entity\TestRepository")
  * @ORM\Table(name="test")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
@@ -41,6 +41,7 @@ abstract class Test
      */
     private $dateSortie;
 
+
     /**
      * @var string
      *
@@ -49,9 +50,8 @@ abstract class Test
     private $titre;
 	
     /**
-     * @var string
      *
-     * @ORM\Column(name="avis", type="string", length=255)
+     * @ORM\Column(name="avis", type="float")
      */
     private $avis;
 	
@@ -65,7 +65,7 @@ abstract class Test
 	/**
      * @var string
      *
-     * @ORM\Column(name="adaptation", type="string", length=255)
+     * @ORM\Column(name="adaptation", type="string", length=255, nullable=true)
      */
     private $adaptation;
 	
@@ -89,9 +89,14 @@ abstract class Test
     private $image;
 
 
+    /**
+    * @Assert\NotBlank()
+    * @ORM\ManyToMany(targetEntity="Echyzen\TestBundle\Entity\Genre", mappedBy="tests", cascade={"persist"})
+    */
+    private $genres;
 
     /**
-    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
+    * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="test", cascade={"persist", "remove"})
     */
     private $commentaires;
 
@@ -99,6 +104,7 @@ abstract class Test
 	{
 		$this->date = new \Datetime(); // Par défaut, la date de l'article est la date d'aujourd'hui
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
+        $this->genres = new \Doctrine\Common\Collections\ArrayCollection(); // C'est un arrayCollection, il doit donc être initialisé
 	}
     
 
@@ -378,5 +384,39 @@ abstract class Test
     public function getAdaptation()
     {
         return $this->adaptation;
+    }
+
+    /**
+     * Add genres
+     *
+     * @param \Echyzen\TestBundle\Entity\Genre $genres
+     * @return Test
+     */
+    public function addGenre(\Echyzen\TestBundle\Entity\Genre $genres)
+    {
+        $this->genres[] = $genres;
+        $genres->addTest($this);
+        return $this;
+    }
+
+    /**
+     * Remove genres
+     *
+     * @param \Echyzen\TestBundle\Entity\Genre $genres
+     */
+    public function removeGenre(\Echyzen\TestBundle\Entity\Genre $genres)
+    {
+        $this->genres->removeElement($genres);
+         $genres->removeTest($this);
+    }
+
+    /**
+     * Get genres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenres()
+    {
+        return $this->genres;
     }
 }

@@ -1,0 +1,237 @@
+{% extends "EchyzenTestBundle::layout.html.twig" %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}
+{% block stylesheet %}
+
+	{{ parent() }}
+	{% stylesheets '@EchyzenTestBundle/Resources/public/css/*' %}
+
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+	{% endstylesheets %}
+{% endblock %}
+{% block echyzen_test_body %}
+
+    {# initialisation des variable #}
+    {% set close, typeTiles = 1, 1 %}
+
+    {% for key, entity in entities %}
+    	{#<a href="lol">
+			<div class="rt-grid-3 rt-alpha">
+				<div style="background-color: #0099ff;">
+					<i class="icon-user-md"></i>
+					<h2>{{ entity.titre }}</h2>
+					<p>
+						{{ entity.contenu }}
+					</p>
+				</div>
+			</div>
+		</a>#}
+
+      {# balisage du début des colonnes #}
+      {% if close == 1 %}
+        <div style="float:left; width: 100%; margin-top: -16px;">
+          <ul class="tiles">
+            <div class="col1">
+      {% elseif close == 3 %}
+            <div class="col2">
+      {% elseif close == 5 %}
+            <div class="col3">
+      {% endif %}
+
+
+      {# Affichage de la tuile selon son type #}
+      {% if (typeTiles is divisible by(5) or  typeTiles is divisible by(6)) %}
+        {% set close = close + 2 %}
+        {#Gros : {{ typeTiles }}#}
+        
+          <li class="tile tile-2xbig tile-9 fig-tile" >
+            <figure>
+              <img  title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+              entity.image.url) }}" />
+              <figcaption class="tile-caption{{ random([1, 2, 3]) }} caption-bottom">
+                  <a href="{{ path('test_show', {'id' : entity.id }) }}" style="position: relative; top: -15px; font-size: 1.6em; font-style : italic;letter-spacing:5px; color: white;">
+                    {{ entity.titre }}
+                  </a>
+
+                <p style="float: left; font-size: 0.9em; top: -5px;">
+                  <br />
+                  Paru le : {{ entity.dateSortie|date('d/m/Y à  H:i') }}
+                  <br />
+                  Avis : {{ entity.avis }} / 5
+                  <br />
+                  Public Visée : {{ entity.publicConcerne }}
+                </p>
+                <p style=" float: right; text-align: right; color: rgb(168,0,241); font-size: 0.8em; ">
+                 {% for genre in entity.genres %}
+                   <a  href="{{ path('test', {'type' : 'test', 'genre_id' : genre.id }) }}">
+                    {{ '#' ~ genre.nom }}  
+                  </a>
+                  <br />
+                {% endfor %}
+                </p>
+              </figcaption>
+            </figure>
+          </li>
+      
+
+
+
+
+        {% if typeTiles is divisible by(6) %}
+          {% set typeTiles = 0 %}
+        {% endif %}  
+      {% else %}
+        {#Petit : {{ typeTiles }}#}
+        
+          <li class="tile tile-big tile-{{ random([1, 2, 3]) }} {{ random(['slideTextUp', 'slideTextLeft', 'slideTextRight']) }}" >
+            <div>
+              <p>
+
+                <a href="{{ path('test_show', {'id' : entity.id }) }}" style="font-size: 1.6em; font-style : italic;letter-spacing:5px; position: relative; top:-25px; color: white;">
+                  {{ entity.titre }}
+                </a>
+                <br />
+                <span style="display: inline-block; width: 170px; position: relative; left: -30px;">
+                  {% for genre in entity.genres %}
+   <a style="color: rgb(168,0,241); font-size: 0.8em;" href="http:\\google.fr">{{ '#' ~ genre.nom }}</a>
+                  {% endfor %}
+                 </span>
+                 <br />
+                 Paru le : {{ entity.dateSortie|date('d/m/Y à  H:i') }}
+              </p>
+<p style=" font-size: 0.9em; position: relative; right: 43px; width: 100px;">
+Avis : {{ entity.avis }} / 5<br />Public Visée : {{ entity.publicConcerne }}</p>
+                      
+            </div>
+            <div>
+              {#<figure style="width: 100%; background-position: center;">
+                  <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                  entity.image.url) }}" />
+              </figure>#}
+     <p style="background-image: url({{asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                  entity.image.url) }}); no-repeat center center fixed;   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;background-position: center; ">   
+              <span style="background-color: rgba(6, 210, 237, 0.7); text-decoration: underline; font-size: 1.3em; font-style : italic;letter-spacing:10px; padding: 5px; position: relative; top:-25px; padding-left: 43%; padding-right: 33%;">
+                {{ entity.titre }}
+              </span>
+                <br />
+              <span style="font-size: 1.1em; text-align: left; border-top-left-radius: 5px; background-color: rgba(0,0,0,0.7); padding: 5px; position: absolute; bottom:0px; right:30px;">
+                Ecrit le : {{ entity.date|date('d/m/Y à H:i') }}
+              </span>
+                </p>
+
+
+            </div>
+          </li>
+
+
+
+
+
+
+
+        {% set close = close + 1 %}
+      {% endif %}
+
+
+      {# balisage de fin des colonnes #}
+      {% if close == 7 %}
+        </div></ul></div>
+        {% set close = 1 %}
+      {% elseif close == 3 or close == 5 %}
+        </div>
+      {% endif %}
+
+
+      {# incrementation pour itération suivante #}
+      {% set typeTiles = typeTiles + 1 %}
+    {% endfor %}
+		
+    {% if close != 1 %}
+      </div></ul></div>
+    {% endif %}
+    {#<ul class="tiles">
+      <div class="col1">
+        <li class="tile tile-big tile-1 slideTextRight" >
+          <div><p>This tile's content slides up</p></div>
+          <div><p>View all tasks</p></div>
+        </li>
+
+        <a href="http:\\google.fr">
+          <li class="tile tile-big tile-4 fig-tile slideTextRight" >
+            <figure>
+              <img src="images/blue.jpg" />
+              <figcaption class="tile-caption caption-left">Slide-out Caption from left</figcaption>
+            </figure>
+          </li>
+        </a>
+      </div>
+
+      <div class="col2">
+        <li class="tile tile-big tile-5" >
+          <div><p><span class="icon-cloudy"></span>Weather</p></div>
+        </li>
+        <li class="tile tile-big tile-6 slideTextLeft" >
+          <div><p><span class="icon-skype"></span>Skype</p></div>
+          <div><p>Make a Call</p></div>
+        </li>
+
+      </div>
+
+      <div class="col3">      
+        <li class="tile tile-2xbig tile-9 fig-tile" >
+          <figure>
+            <img src="images/summer.jpg" />
+            <figcaption class="tile-caption caption-bottom">Fixed Caption: Some Subtitle or Tile Description Goes Here with some kinda link or anything
+            </figure>
+        </li>
+
+      </div>
+    </ul>
+    <br />
+    <br />
+		<ul class="tiles">
+      <div class="col1">
+        <li class="tile tile-big tile-1 slideTextRight" >
+          <div><p>This tile's content slides up</p></div>
+          <div><p>View all tasks</p></div>
+        </li>
+
+        <a href="http:\\google.fr">
+          <li class="tile tile-big tile-4 fig-tile slideTextRight" >
+            <figure>
+              <img src="images/blue.jpg" />
+              <figcaption class="tile-caption caption-left">Slide-out Caption from left</figcaption>
+            </figure>
+          </li>
+        </a>
+      </div>
+
+      <div class="col2">
+        <li class="tile tile-big tile-5" >
+          <div><p><span class="icon-cloudy"></span>Weather</p></div>
+        </li>
+        <li class="tile tile-big tile-6 slideTextLeft" >
+          <div><p><span class="icon-skype"></span>Skype</p></div>
+          <div><p>Make a Call</p></div>
+        </li>
+
+      </div>
+
+      <div class="col3">      
+        <li class="tile tile-2xbig tile-9 fig-tile" >
+          <figure>
+            <img src="images/summer.jpg" />
+            <figcaption class="tile-caption caption-bottom">Fixed Caption: Some Subtitle or Tile Description Goes Here with some kinda link or anything
+            </figure>
+        </li>
+
+      </div>
+    </ul>#}
+
+
+{% endblock %}

@@ -6,22 +6,16 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class FilmType extends TestType
+class GenreType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // On fait appel à la méthode buildForm du parent, qui va ajouter tous les champs à $builder
-        parent::buildForm($builder, $options);
         $builder
-            ->add('production', 'text')
-            ->add('lieu', 'text')
-            ->add('realisateur', 'text')
-            ->add('duree', 'time')
-            
+            ->add('nom')
         ;
     }
     
@@ -31,7 +25,7 @@ class FilmType extends TestType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Echyzen\TestBundle\Entity\Film'
+            'data_class' => 'Echyzen\TestBundle\Entity\Genre'
         ));
     }
 
@@ -40,6 +34,6 @@ class FilmType extends TestType
      */
     public function getName()
     {
-        return 'echyzen_testbundle_film';
+        return 'echyzen_newsbundle_genre';
     }
 }

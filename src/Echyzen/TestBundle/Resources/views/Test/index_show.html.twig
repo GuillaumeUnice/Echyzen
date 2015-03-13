@@ -1,18 +1,12 @@
-{% extends "EchyzenTestBundle::layout.html.twig" %}
-
-{% block javascripts %}
-  {{ parent() }}
-{% endblock %}
-
-{% block echyzen_test_body %}
-	
-	<section class="grid3d vertical" id="grid3d">
+<section class="grid3d vertical" id="grid3d">
   <div class="grid-wrap">
     <div class="grid tile">
 
 
     {% for key, entity in entities %}
+    
       <figure class="tile_effect">
+        <a href="{{ path('test_show', {'id' : entity.id }) }}">
       <h2>{{entity.titre}}</h2>
       <img  title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
         entity.image.url) }}" />
@@ -29,7 +23,8 @@
           </span>
         </p>
         <p class="description">Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
-      </figcaption>     
+      </figcaption> 
+      </a>   
     </figure>
     {% endfor %}
     </div>
@@ -44,7 +39,3 @@
     <span class="icon close-content"></span>
   </div>
 </section>
-
-
-
-{% endblock %}

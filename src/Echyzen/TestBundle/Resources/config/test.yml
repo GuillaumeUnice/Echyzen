@@ -1,6 +1,9 @@
 test:
-    pattern:  /
-    defaults: { _controller: "EchyzenTestBundle:Test:index" }
+    pattern:  /{type}/{genre_id}
+    defaults: { _controller: "EchyzenTestBundle:Test:index",  genre_id: null }
+    requirements:
+        type:    (test|film|livre|video)
+        genre_id:    (\d+(%echyzen_test.index_genre_delimiter%|))*
 test_show:
     pattern:  /{id}/show
     defaults: { _controller: "EchyzenTestBundle:Test:show" }

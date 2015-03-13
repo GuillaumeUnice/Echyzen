@@ -3,7 +3,7 @@
 namespace Echyzen\TestBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-
+use \Doctrine\ORM\Query\Expr;
 /**
  * TestRepository
  *
@@ -12,5 +12,42 @@ use Doctrine\ORM\EntityRepository;
  */
 class TestRepository extends EntityRepository
 {
-	
+	public function getCountType () {
+
+		/*$requete = $this->createQueryBuilder('t')
+		->select('t.type, COUNT(t.id) as co')
+        ->groupBy('t.type');*/
+		$result =  Doctrine_Query::create()
+        ->select('type, COUNT(*) AS count')
+        ->from('Test')
+        ->groupBy('type')
+        ->fetchArray();
+       	return $result;
+		//die($requete->getDQL());
+		return $requete->getQuery()->getResult();
+	}
+	public function getByGenre($entity, $genreId) {
+		
+
+		$requete = $this->createQueryBuilder('t')
+		->leftJoin('t.genres', 'g');
+
+		///$requete = $requete->Where('g.id = ? OR g.id = ?', $genreId);
+
+
+
+
+		/*foreach ($genreId as $value) {
+
+				$requete = $requete->orWhere('g.id = :id')->setParameter('id', $value);
+		}*/
+		$requete->orWhere('g.id IN (:genreId)')->setParameter('genreId', $genreId);
+		if($entity) {
+			$requete = $requete->andWhere('t INSTANCE OF ' . $entity);	
+		}
+		//die($requete->getDQL());
+		return $requete->orderBy('t.date',  'DESC')
+			->getQuery()->getResult();
+
+	}
 }

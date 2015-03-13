@@ -5,7 +5,7 @@ namespace Echyzen\TestBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * Film
+ * Livre
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Echyzen\TestBundle\Entity\LivreRepository")

@@ -36,6 +36,12 @@ class Film extends Test
      */
     private $lieu;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="duree", type="datetime")
+     */
+    private $duree;
 
 
 
@@ -109,4 +115,27 @@ class Film extends Test
     }
 
 
+
+    /**
+     * Set duree
+     *
+     * @param \DateTime $duree
+     * @return Film
+     */
+    public function setDuree($duree)
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    /**
+     * Get duree
+     *
+     * @return \DateTime 
+     */
+    public function getDuree()
+    {
+        return $this->duree;
+    }
 }
