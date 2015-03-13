@@ -50,6 +50,13 @@ class Commentaire
     */
     private $news;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="Echyzen\TestBundle\Entity\Test", inversedBy="commentaires")
+    *
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $test;
+
     public function __construct()
     {
         $this->date = new \Datetime(); // Par défaut, la date du commentaire
@@ -155,4 +162,27 @@ class Commentaire
     }
 
 
+
+    /**
+     * Set test
+     *
+     * @param \Echyzen\TestBundle\Entity\Test $test
+     * @return Commentaire
+     */
+    public function setTest(\Echyzen\TestBundle\Entity\Test $test)
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    /**
+     * Get test
+     *
+     * @return \Echyzen\TestBundle\Entity\Test 
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
 }

@@ -3,7 +3,7 @@
 namespace Echyzen\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Commentaire
  *
@@ -49,6 +49,19 @@ class Commentaire
     * @ORM\JoinColumn(nullable=false)
     */
     private $news;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Echyzen\TestBundle\Entity\Test", inversedBy="commentaires")
+    *
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $test;
+
+    public function __construct()
+    {
+        $this->date = new \Datetime(); // Par défaut, la date du commentaire
+
+    }
 
     /**
      * Get id
@@ -127,5 +140,49 @@ class Commentaire
     public function getDate()
     {
         return $this->date;
+    }
+    /**
+    * Set news
+    *
+    * @param Echyzen\NewsBundle\Entity\News $news
+    */
+    public function setNews(\Echyzen\NewsBundle\Entity\News $news)
+    {
+        $this->news = $news;
+    }
+
+    /**
+    * Get news
+    *
+    * @return Echyzen\NewsBundle\Entity\News
+    */
+    public function getNews()
+    {
+        return $this->news;
+    }
+
+
+
+    /**
+     * Set test
+     *
+     * @param \Echyzen\TestBundle\Entity\Test $test
+     * @return Commentaire
+     */
+    public function setTest(\Echyzen\TestBundle\Entity\Test $test)
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    /**
+     * Get test
+     *
+     * @return \Echyzen\TestBundle\Entity\Test 
+     */
+    public function getTest()
+    {
+        return $this->test;
     }
 }

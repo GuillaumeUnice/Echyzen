@@ -36,18 +36,23 @@ class NewsRepository extends EntityRepository
 						->andWhere('n.publication = 1')
             ->orderBy('n.date')->getQuery()->getResult();
 	}
-	public function getCountByMonth($year, $month) {
+	/**
+	*	@return un tableau contenant pour chaque couple year/month le nombre de news associé
+	*
+	*/
+	public function getCountByMonth() {
 
 		return $this->createQueryBuilder('n')
-			->select('count(n.id)')
-			->where('YEAR(n.date) = :year')
-			->setParameter('year', $year)
-			->andWhere('MONTH(n.date) = :month')
-			->setParameter('month', $month)
-			->andWhere('n.publication = 1')
-            ->orderBy('n.date')->getQuery()->getSingleScalarResult();
+			->select('YEAR(n.date) as year, MONTH(n.date) as month, count(n.id) as nbNews')
+			->groupBy('year, month')
+			->where('n.publication = 1')
+			->getQuery()->getScalarResult();
 	}
 
+	/**
+	*
+	*
+	*/
 	public function getCountByMotCle() {
 		return $this->createQueryBuilder('n')
 			->select('m.id', 'm.nom', 'count(m.id) as co')

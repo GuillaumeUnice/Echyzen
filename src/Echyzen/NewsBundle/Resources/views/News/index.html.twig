@@ -1,100 +1,48 @@
+{# src/Echyzen/NewsBundle/Resources/views/index.html.twig #}
+
 {% extends "EchyzenNewsBundle::layout.html.twig" %}
 
 {% block javascripts %}
   {{ parent() }}
-  <script type="text/javascript" >
-
-    jQuery(document).ready(function ($) {
-        $('.tests').each(function( index ) {
-            $(this).hide();
-        });
-        $('.news .news_titre').on('click', function() {
-            
-            $(this).parent().find('.tests').slideToggle("slow");
-            if($(this).parent().find('.r').is(":visible")) {
-                $(this).parent().find('.r').hide();
-            } else {
-                
-                $(this).parent().find('.r').show();  
-            }
-            
-
-            /*alert($(this).parent().attr('value'));
-            if($(this).parent().attr('value') == 1) {
-
-
-            } else {
-                //var $test = $(this).parent();
-                //$(this).parent().hide();
-                var $test = $(this).parent().find('.news_mot_cle');
-                $('<hr />').prependTo($test);
-                $(this).parent().find('.mot_cle').clone().prependTo($test);
-                $(this).parent().find('.news_footer p').clone().prependTo($test);
-                $(this).parent().find('.tests').fadeIn("slow");//slideToggle( "slow");//show(); 
-                $(this).parent().attr('value', 1);  
-            }*/
-            
-        }) ;
-    });
-  </script>
+    {% javascripts '@EchyzenNewsBundle/Resources/public/js/newsDisplay.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block echyzen_news_body %}
 
     {% for key, entity in entities %}
-        <article class="news" value="0">
-
+        <article class="news">
+            {# Affichage Titre/image_rubrique/nb_commentaire #}
             <h2 class="news_titre">
                 <img class="img_miniature" title="{{ entity.rubrique.image.alt }}" alt="{{ entity.rubrique.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.rubrique.image.id ~ '.' ~ 
                 entity.rubrique.image.url) }}" />
                 {{ entity.titre }}
                 <span> {{ entity.commentaires | length }}  commentaires</span>
             </h2>
+
             <div class="news_panneau">
                 <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}"
                 src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
-                entity.image.url) }}" style="float:left; margin-right: 15px;" />
-
-
-                <div class="news_mot_cle">
-
+                entity.image.url) }}" style="float:left;" />
+                <div >
                     <p class="intro">
-
-                        
-                            {% if entity.intro is empty %}
-                                
-                               <span class="r"> {{ entity.contenu | truncate(200, true, '...') }}<span >
-                            {% else %}    
-                                <span >{{  entity.intro|parse}}</span>
-                            {% endif %}
-                            
-                        
-
-                        <span class="newsShow" style="float : right; color: rgba(0,0,0,0.4);
-                        text-shadow: 0 0 1px rgba(0,0,0,0.1);
-                        font-weight: 600;
-                        font-size: 1.8em;">Lire la suite...</span>
-
-                        <span class="mot_cle">Mots-Clés : #Ajax
-                            {% for motcle in entity.motcles %}
-                                {{ '#' ~ motcle.nom }}
-                                <br />
-                            {% endfor %}
-                        </span>
+                        <span class="intro_contenu">
+                            {% if entity.intro is empty %} {{ entity.contenu | truncate(200, true, '...') }}
+                            {% else %} {{  entity.intro }} {% endif %}
+                        <span>
                     </p>
-                   
-
-
-                    <div class="tests">
-                        {{ entity.contenu }}
+                    <div class="news_contenu">
+                        {{ entity.contenu | parse }}
                         <hr />
                         <div class="news_button">
                             {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
-
+                            {{ faceBookButton() | raw }}
+                             {{ googlePlusButton(path('news_show',{ 'id': entity.id}), 'lol') | raw }}
                             {# génération du bouton commentaire #}
                             <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
                         </div>
-                        <div class="commentaire" style="">
+                        <div class="commentaire">
                             {% for commentaire in entity.commentaires %}
                                 <div class="commentaire_contenu">
                                     <p>
@@ -109,34 +57,21 @@
                             {% endfor %}
                         </div>
                     </div>
-
+                    <span class="newsShow" >Lire la suite...</span>
                 </div>
-                
                 <footer class="news_footer">
-                    
                     <p>
-                        {#<span>Mots-Clés : #Ajax</span>#}
-                        Ecrit le  {{ entity.date|date('d/m/Y à  H:i') }}
-                        
+                        Ecrit le  {{ entity.date|date('d/m/Y à  H:i') }} 
+                        <span class="news_footer_mot_cle">
+                            Mots-Clés : 
+                            {% for motcle in entity.motcles %}
+                                <a href="{{ path('news_by_motcle', {'id': motcle.id}) }}">{{ '#' ~ motcle.nom }}</a>
+                                {{ '  ' }}
+                            {% endfor %}
+                        </span>
                     </p>
                 </footer>
             </div>
-
-            {#
-            <a href="https://twitter.com/share" data-text="loooooool" class="twitter-share-button" data-url="https://test" data-via="alex" data-lang="en">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>#}
-            
-
-            {#{{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}#}
-
-
-            {# génération du bouton commentaire #}
-            {#<button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>#}
-
-      
-            {#{% for commentaire in entity.commentaires %}
-                <br />{{ commentaire.contenu }}
-            {% endfor %}#}
         </article>
     {% endfor %}
 {% endblock %}

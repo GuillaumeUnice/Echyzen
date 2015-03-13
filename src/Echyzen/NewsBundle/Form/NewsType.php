@@ -23,7 +23,7 @@ class NewsType extends AbstractType
             )
             ->add('titre', 'text')
             ->add('intro', 'textparse')
-            ->add('contenu', 'textparse')
+            ->add('contenu', 'textarea')
             ->add('publication', 'checkbox', array('required' => false))
             /*->add('motcles', 'collection', array('type'         => new MotCleType(),
                                               'allow_add'    => true,

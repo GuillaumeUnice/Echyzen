@@ -1,9 +1,21 @@
+/**
+* TODO ajout de style css avant et après ajax call
+*	resoudre le scope ppour atteindre baliseNews depuis la fonction ajaxSuccess
+*	Appliquer sur tout les selecteur Rubrique/motcle/date
+*	
+*
+**/
 jQuery(document).ready(function ($) {
 
 	newsAjax = {
 		
 		// selecteur pour le click rubrique
 		baliseRubrique : '#rubrique a',
+		// selecteur pour le clik date
+		baliseArchive : '#archive a',
+		// selecteur pour le clik mot-cle
+		baliseMotCle : '#mot_cle a',
+
 		// selecteur pour le fonctionnement du TopMenu
 		menuTop : document.getElementById( 'top_menu' ),
 		showTop : document.getElementsByClassName( 'showTop' ),
@@ -19,36 +31,69 @@ jQuery(document).ready(function ($) {
 		
 		// selecteur pour reconnaitre les formulaires soumis par ajax
 		baliseAjaxForm : '.ajax_form',
-		
-		newsByRubrique: function(event) {
-			
+
+		// nombre d'appel ajax effectué initialiser à -1
+		// pour permettre de supprimer la mise en cache de la première page par les navigateurs
+		// en cas de back puis forward clique
+		nbAjaxCall : -1,
+
+		ajaxTimeout : 4000,
+
+		test: function(data, url) {
+			newsAjax.nbAjaxCall++;
+
+			$('#news_container').html(data);
+			//newsAjax.baliseNews.html(data);
+			// modifification de l'URL
+			history.pushState({key: 'value'}, 'titre', url);
+		},
+		newsByRubrique: function(event) {			
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
 			
 			$(that.baliseRubrique).click(function(e) {
 			e.preventDefault();
-			//var url = Routing.generate('news_by_rubrique', { id: this.value });
-			alert($(this).attr('value'));
-			alert($(this).attr('href'));
-			//permet de modifier url en passant des données
-			history.pushState({key: 'value'}, 'titre', $(this).attr('href'));
+				var url = $(this).attr('href')
+				alert(url);
 				$.ajax({
 					type: 'GET',
-					url: $(this).attr('href'),//'/Symfony/web/app_dev.php/news/7/rubrique', //url,
+					url: url,
+					timeout: newsAjax.ajaxTimeout,//6000,
+					success: function (data) {
+						//$(that.baliseNews).html(data);
+						newsAjax.test(data, url);
+					},  
+					error: function () {
+						alert('La requête n\'a pas abouti');
+					}
+				});
+			});			
+		},/* // function newsByRubrique()
+
+		newsByMotCle: function(event) {
+			
+			// permet d'avoir accès à la class dans la fonction click
+			var that = this;
+			
+			$(that.baliseMotCle).click(function(e) {
+			e.preventDefault();
+			history.pushState({key: 'value'}, 'titre', $(this).attr('href'));
+			alert($(this).attr('href'));
+				$.ajax({
+					type: 'GET',
+					url: $(this).attr('href'),
 					timeout: 3000,
 					success: function (data) {
-						alert('lol');
+						
 						$(that.baliseNews).html(data);
+						
 					},   
 					error: function () {
 						alert('La requête n\'a pas abouti');
 					}
 				})
-
 			});
-
-			
-		}, // function newsByRubrique()
+		}, // function newsByMotCle()*/
 		
 		newsCreateCommentaire : function() {
 			// permet d'avoir accès à la class dans la fonction click
@@ -62,7 +107,7 @@ jQuery(document).ready(function ($) {
                 $.ajax({
                     type: 'GET',
                     url: url,
-                    timeout: 50000,
+                    timeout: 3000,
                     success: function (data) {
 						$('.loading').hide();
 						$(that.baliseMenuContainer).append(data);
@@ -117,26 +162,18 @@ jQuery(document).ready(function ($) {
 			
 		}, // function newsCreateCommentaire()
 		init : function() {
-						// permet d'avoir accès à la class dans la fonction click
+			
+			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
-		
-			//evenement a écouter lors du changement de page par le navigateur (des qu'il y a un back ou un next dans l'historique avec info rentrer dans un pushState
+			
+			//evenement a écouter lors du changement de page par le navigateur 
+			//(dès qu'il y a un back ou un next dans l'historique avec info rentrer dans un pushState
 			window.onpopstate = function(event) {
-				/*if(event.state == null) {
-					$.ajax({
-						type: 'GET',
-						url: 'http://localhost/Nouveau%20dossier/testbis.html',
-						timeout: 3000,
-						success: function (data) {
-							$('.container').html(data);
-						},   
-						error: function () {
-							alert('La requête n\'a pas abouti');
-						}
-					})
-					alert('se marche');
-				} else {*/
-					alert(document.location.pathname);
+
+					// si il y a eu un appel ajax sur l'URL demandé
+					if(newsAjax.nbAjaxCall != 0) {
+						newsAjax.nbAjaxCall--;
+						alert(document.location.pathname);
 						$.ajax({
 							type: 'GET',
 							url: document.location.pathname,
@@ -148,6 +185,15 @@ jQuery(document).ready(function ($) {
 								alert('La requête n\'a pas abouti');
 							}
 						})
+					// c'est la page par laquelle on a acceder au module de news donc on doit la recharger en entier
+					} else if (newsAjax.nbAjaxCall == 0)  {
+						newsAjax.nbAjaxCall++;
+						window.location.href = document.location.pathname;
+					} else {
+						alert('llllll');
+						newsAjax.nbAjaxCall++;
+					}
+					
 				//}
 			}
 		}
@@ -156,6 +202,7 @@ jQuery(document).ready(function ($) {
 	
 	newsAjax.init();
 	newsAjax.newsByRubrique();
+	//newsAjax.newsByMotCle();
 	newsAjax.newsCreateCommentaire();
 	
 

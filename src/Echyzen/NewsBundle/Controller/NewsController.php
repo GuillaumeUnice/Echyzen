@@ -25,7 +25,6 @@ class NewsController extends Controller
 
     /**
     * Page d'index des news : Affiche l'ensemble des news 
-    * A faire : par ordre de date de création
     *
     */
     public function indexAction()
@@ -68,6 +67,7 @@ class NewsController extends Controller
     public function getByMonthAction($year, $month) {
         $em = $this->getDoctrine()->getManager();
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByMonth($year, $month);
+
         // si le résultat est vide on retourne l'index
         if($array['entities'] == null) {
             return self::indexAction();
@@ -184,84 +184,25 @@ class NewsController extends Controller
             
         }
     } // getVue()
-    public function getCountByRubrique() {
-
-    } // getCountByRubrique()
 
     /**
     *   fonction permettant de retourner le nombre de news par mois
-    *   cad retourne un tableau ayant en clé mois&Année ex : Janvier 2014
-    *   et en valeur un array composer des clé : count, year, month
+    *   cad retourne un tableau comportant des tableaux de type ('date' => dateTime, 'count' => int)
     */
-    public function getCountByMonth() {
+    private function getCountByMonth() {
         $em = $this->getDoctrine()->getManager();
+        $subres = $res = array();
+        $subres = $em->getRepository('EchyzenNewsBundle:News')->getCountByMonth();
         
-        /*
-        $test = $em->getRepository('EchyzenNewsBundle:News')->getCountByMotCle();
-        die(print_r($test));*/
-
-
-
-
-
-
-
-
-        $year = 2014;
-        $month = 5;
-        $today = new \DateTime();
-        $res = array();
-
-        while(($year != date_format($today, 'Y')) || ($month <= date_format($today, 'm') )) {
-            // retourne le nombre de news présente pour un mois précis
-            $count = $em->getRepository('EchyzenNewsBundle:News')->getCountByMonth($year, $month);
-            if($count) {
-                //$subres = array($count, $year, $month);
-                $subres = array('count' => $count, 'year' => $year, 'month' => $month);
-
-                $res[self::getMonth($month) . ' ' . $year] = $subres;
-            }
-
-            if($month < 12) {
-                $month++;
-            } else {
-                $month = 0;
-                $year++;
-            }
+        foreach($subres as $oneMonth)
+        {
+            $date = new \DateTime();
+            $date->setDate(intval($oneMonth['year']), intval($oneMonth['month']), 1);
+            array_push($res, array( 'date' => $date, 'count' => $oneMonth['nbNews']));
         }
+        //die(print_r($res));
         return $res;
+
     } // getNewsByMonth()
 
-    /**
-    * fonction permettant la "traduction" des months passage ex : 1 => Janvier
-    * @param $month nombre a traduire en mois litéral
-    */
-    private function getMonth($month) {
-        switch ($month) {
-            case 1:
-                return 'Janvier';
-            case 2:
-                return 'Fevrier';
-            case 3:
-                return 'Mars';
-            case 4:
-                return 'Avril';
-            case 5:
-                return 'Mai';
-            case 6:
-                return 'Juin';
-            case 7:
-                return 'Juillet';
-            case 8:
-                return 'Aout';
-            case 9:
-                return 'Septembre';
-            case 10:
-                return 'Octobre';
-            case 11:
-                return 'Novembre';
-            default:
-                return 'Décembre';
-        }
-    }
 }

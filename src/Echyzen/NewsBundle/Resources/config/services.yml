@@ -1,6 +1,6 @@
 parameters:
     twitter_name: echyzenWebsite
-    bbcode_to_html : { gras : i, ital : i }
+    bbcode_to_html : { gras : i, b : strong, }
 
 services:
     echyzen_news.socialbar:

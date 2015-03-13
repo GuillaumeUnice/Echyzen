@@ -7,30 +7,26 @@
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('bundles/echyzennews/js/newsAjax.js') }}" type="text/javascript" ></script>
+	{{ parent() }}
+	{% javascripts '@EchyzenNewsBundle/Resources/public/js/newsAjax.js' filter="?yui_js" %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 {% endblock %}
 
 {% block stylesheet %}
-
 	{{ parent() }}
-	{% stylesheets '@EchyzenNewsBundle/Resources/public/css/*' %}
-
+	{% stylesheets '@EchyzenNewsBundle/Resources/public/css/*'
+		 filter="?compass, cssrewrite, yui_css" 
+	%}
 		<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 	{% endstylesheets %}
 {% endblock %}
 
 
 {% block body %}
-
-	{# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
 	<div id="bandeau"><h1 class="bandeau_titre">News</h1><div id="bandeau_centre"></div></div>
- 
-
 	<div id="corps_bis">
-
 		<div id="news_container">
-			
 			{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
 			{% block echyzen_news_body %}
 			{% endblock %}
@@ -38,14 +34,13 @@
 			</div>
 		</div>
 		<div id="news_categorie">
-
 			<div id="rubrique">
 				<h2>Rubrique</h2>
 				<ul>
 				{% for rubrique in rubriques %}
         			<li><a value="7" href="{{ path('news_by_rubrique', {'id': rubrique.id}) }}">
         				{{ rubrique.nom | upper }}
-        				<span style="float : right; color: pink;">{{ rubrique.co }}</span>
+        				<span class="news_count" >{{ rubrique.co }}</span>
         			</a></li>
     			{% endfor %}
 				</ul>
@@ -54,31 +49,33 @@
 			<div id="archive">
 				<h2>Archive</h2>
 				<ul>
-					{% for date, info in dates %}
-
-						<li><a href="{{ path('news_by_month', {'year': info.year, 'month' : info.month}) }}">
-							{{ date  }}<span style="color : pink; float : right;">{{ info.count }}</span>
-						</a></li>
+					{% for d in dates %}
+						<li>
+							<a href="{{ path('news_by_month', {'year': d.date| date("Y"), 'month' : d.date| date("m")}) }}">
+								{{ d.date| date("F - Y")   }}
+								<span class="news_count" >
+									{{ d.count }}
+								</span>
+							</a>
+						</li>
     				{% endfor %}
 				</ul>
 			</div>
-
-			<div id="mot_clé">
+			<div id="mot_cle">
 				<h2>Mots-Clés</h2>
 				<ul>
 					{% for motCle in motCles %}
-						<li><a href="{{ path('news_by_motcle', {'id': motCle.id}) }}">
-							{{ motCle.nom }}
-							<span style="color : pink; float : right;">{{ motCle.co }}</span>
-						</a></li>
+						<li>
+							<a href="{{ path('news_by_motcle', {'id': motCle.id}) }}">
+								{{ motCle.nom }}
+								<span class="news_count" >
+									{{ motCle.co }}
+								</span>
+							</a>
+						</li>
     				{% endfor %}			
 				</ul>
-			</div>			
-
-			
+			</div>
 		</div>
-
 	</div>
-
-
 {% endblock %}
