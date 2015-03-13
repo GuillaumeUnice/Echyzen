@@ -1,3 +1,15 @@
+echyzen_test:
+    resource: "@EchyzenTestBundle/Resources/config/routing.yml"
+    prefix:   /
+
+#Mise en place du routing pour le routing Ajax
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+echyzen_admin:
+    resource: "@EchyzenAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 #Mise en place du routing pour la connection
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -31,3 +43,5 @@ sdz_blog:
     resource: "@SdzBlogBundle/Resources/config/routing.yml"
     prefix:   /
 
+elfinder:
+     resource: "@FMElfinderBundle/Resources/config/routing.yml"

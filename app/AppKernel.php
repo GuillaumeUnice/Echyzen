@@ -29,6 +29,8 @@ class AppKernel extends Kernel
             new Echyzen\AdminBundle\EchyzenAdminBundle(),
 			new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Echyzen\TestBundle\EchyzenTestBundle(),
+            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+			new FM\ElfinderBundle\FMElfinderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

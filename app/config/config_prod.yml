@@ -11,6 +11,10 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+# Assetic Configuration pour environnement prod
+assetic:
+    debug: false
+
 monolog:
     handlers:
         main:
