@@ -234,8 +234,9 @@ class News
     {
         $this->commentaires->removeElement($commentaire);
 
-        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
-        // $commentaire->setArticle(null);
+        /* Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+         * $commentaire->setArticle(null);
+         */
     }
 
     /**

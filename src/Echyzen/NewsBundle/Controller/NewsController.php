@@ -48,19 +48,14 @@ class NewsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $array = array();
-        $array['entities']/*$entity*/ = $em->getRepository('EchyzenNewsBundle:News')
+        $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')
             ->findBy(array('id' => $id));
-
-           // die($array['entities']->getContenu());
 
         if (!$array['entities']) {
             throw $this->createNotFoundException('Unable to find News entity.');
         }
 
         return self::vue($array);
-        /*return $this->render('EchyzenNewsBundle:News:show.html.twig', array(
-            'entity'      => $entity,
-        ));*/
     }
 
 
@@ -69,7 +64,7 @@ class NewsController extends Controller
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByMonth($year, $month);
 
         // si le résultat est vide on retourne l'index
-        if($array['entities'] == null) {
+        if($array['entities'] === null) {
             return self::indexAction();
         }
 
@@ -80,7 +75,7 @@ class NewsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByRubrique($id);
         // si le résultat est vide on retourne l'index
-        if($array['entities'] == null) {
+        if($array['entities'] === null) {
             return self::indexAction();
         }
         return self::vue($array);     
@@ -91,7 +86,7 @@ class NewsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')->getByMotCle($id);
         // si le résultat est vide on retourne l'index
-        if($array['entities'] == null) {
+        if($array['entities'] === null) {
             return self::indexAction();
         }
         return self::vue($array);     
@@ -200,7 +195,7 @@ class NewsController extends Controller
             $date->setDate(intval($oneMonth['year']), intval($oneMonth['month']), 1);
             array_push($res, array( 'date' => $date, 'count' => $oneMonth['nbNews']));
         }
-        //die(print_r($res));
+        
         return $res;
 
     } // getNewsByMonth()
