@@ -1,7 +1,6 @@
 /**
 * TODO ajout de style css avant et après ajax call
 *	resoudre le scope ppour atteindre baliseNews depuis la fonction ajaxSuccess
-*	Appliquer sur tout les selecteur Rubrique/motcle/date
 *	
 *
 **/
@@ -42,59 +41,62 @@ jQuery(document).ready(function ($) {
 		test: function(data, url) {
 			newsAjax.nbAjaxCall++;
 
-			$('#news_container').html(data);
+			$(this.baliseNews).html(data);
 			//newsAjax.baliseNews.html(data);
 			// modifification de l'URL
 			history.pushState({key: 'value'}, 'titre', url);
 		},
-		newsByRubrique: function(event) {			
+		// fonction requête ajax pour des affichage des news par Rubrique/Date/Mot Cle
+		newsBy: function(event) {			
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
 			
-			$(that.baliseRubrique).click(function(e) {
-			e.preventDefault();
-				var url = $(this).attr('href')
-				alert(url);
+			$(that.baliseRubrique).add($(that.baliseMotCle)).add($(that.baliseArchive)).click(function(e) {
+				e.preventDefault();
+				var options = {};
+				//alert($('#news_container article').length);
+				$($('#news_container article').get().reverse()).each(function(i, obj) {
+			   		//$(this).fadeOut( "slow" );
+			   		
+			   		$( this ).delay(75 * i).hide( 'drop', options, 1200 );
+			   	
+				});
+	
+				var lil = $(this)
+				setTimeout(function(){
+   					$(that.baliseNews).html('<div class="loading" style="height : 130px; width: 130px;"></div>');
+
+
+
+
+				
+				
+				var url = $(lil).attr('href')
+				//alert(url);
+				//alert(url + "?nocache="+Date.now());
 				$.ajax({
 					type: 'GET',
-					url: url,
-					timeout: newsAjax.ajaxTimeout,//6000,
+					url: url, //+ "?nocache="+Date.now(),
+					timeout: newsAjax.ajaxTimeout,
 					success: function (data) {
-						//$(that.baliseNews).html(data);
 						newsAjax.test(data, url);
 					},  
 					error: function () {
 						alert('La requête n\'a pas abouti');
 					}
 				});
-			});			
-		},/* // function newsByRubrique()
 
-		newsByMotCle: function(event) {
-			
-			// permet d'avoir accès à la class dans la fonction click
-			var that = this;
-			
-			$(that.baliseMotCle).click(function(e) {
-			e.preventDefault();
-			history.pushState({key: 'value'}, 'titre', $(this).attr('href'));
-			alert($(this).attr('href'));
-				$.ajax({
-					type: 'GET',
-					url: $(this).attr('href'),
-					timeout: 3000,
-					success: function (data) {
-						
-						$(that.baliseNews).html(data);
-						
-					},   
-					error: function () {
-						alert('La requête n\'a pas abouti');
-					}
-				})
-			});
-		}, // function newsByMotCle()*/
-		
+
+
+
+
+
+				}, ($('#news_container article').length*75 + 1200));
+				//$(that.baliseNews).delay($('#news_container article').length*75 + 1200).html('<div class="loading"></div>');
+
+
+			});			
+		},
 		newsCreateCommentaire : function() {
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
@@ -151,18 +153,12 @@ jQuery(document).ready(function ($) {
 				
 			});
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		}, // function newsCreateCommentaire()
 		init : function() {
-			
+			alert(newsAjax.nbAjaxCall);
+			window.onload = function(e) {
+  history.replaceState({myTag: true}, null, document.URL);
+}
 			// permet d'avoir accès à la class dans la fonction click
 			var that = this;
 			
@@ -173,11 +169,12 @@ jQuery(document).ready(function ($) {
 					// si il y a eu un appel ajax sur l'URL demandé
 					if(newsAjax.nbAjaxCall != 0) {
 						newsAjax.nbAjaxCall--;
-						alert(document.location.pathname);
+						//alert(document.location.pathname);
 						$.ajax({
 							type: 'GET',
 							url: document.location.pathname,
 							timeout: 3000,
+
 							success: function (data) {
 								$(that.baliseNews).html(data);
 							},   
@@ -189,20 +186,22 @@ jQuery(document).ready(function ($) {
 					} else if (newsAjax.nbAjaxCall == 0)  {
 						newsAjax.nbAjaxCall++;
 						window.location.href = document.location.pathname;
-					} else {
-						alert('llllll');
-						newsAjax.nbAjaxCall++;
-					}
-					
-				//}
+					} 
 			}
+			/*$("nav a").click(function(e) {
+				e.preventDefault();
+				alert(document.location.pathname);
+ 
+				history.replaceState( {key: 'value'} , 'titre', document.location.pathname+"?nocache="+Date.now() );
+				alert($(this).attr('href'));
+				window.location.href = $(this).attr('href');
+			});*/
 		}
 	
 	} // class newsAjax
 	
 	newsAjax.init();
-	newsAjax.newsByRubrique();
-	//newsAjax.newsByMotCle();
+	newsAjax.newsBy();
 	newsAjax.newsCreateCommentaire();
 	
 

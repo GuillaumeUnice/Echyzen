@@ -13,7 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class NewsRepository extends EntityRepository
 {
 	public function getByRubrique($id) {
-		return $this->createQueryBuilder('n')->where('n.rubrique = :id')->setParameter('id', $id)->orderBy('n.date')->getQuery()->getResult();
+		return $this->createQueryBuilder('n')
+			->where('n.rubrique = :id')
+			->setParameter('id', $id)
+			->andWhere('n.publication = 1')
+			->orderBy('n.date')
+			->getQuery()->getResult();
 	}
 	public function getByMotCle($id) {
 		return $this->createQueryBuilder('n')
@@ -33,7 +38,7 @@ class NewsRepository extends EntityRepository
 			->setParameter('year', $year)
 			->andWhere('MONTH(n.date) = :month')
 			->setParameter('month', $month)
-						->andWhere('n.publication = 1')
+			->andWhere('n.publication = 1')
             ->orderBy('n.date')->getQuery()->getResult();
 	}
 	/**

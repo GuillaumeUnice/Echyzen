@@ -1,3 +1,18 @@
+.azerty {
+    -webkit-transform: rotateZ(90deg);
+    -moz-transform: rotateZ(90deg);
+    -ms-transform: rotateZ(90deg);
+    -o-transform: rotateZ(90deg);
+    transform: rotateZ(90deg);
+    -webkit-transition: all 2s ease-out;
+    /* Firefox */
+    -moz-transition: all 2s ease-out;
+    /* WebKit */
+    -o-transition: all 2s ease-out;
+    /* Opera */
+    transition: all 2s ease-out;
+    /* Standard */
+}
 /* Espace contenant les news */
 #news_container {
 	position: relative;

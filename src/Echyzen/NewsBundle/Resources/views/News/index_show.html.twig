@@ -1,0 +1,68 @@
+
+    {% javascripts '@EchyzenNewsBundle/Resources/public/js/newsDisplay.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+  {% for key, entity in entities %}
+        <article class="news">
+            {# Affichage Titre/image_rubrique/nb_commentaire #}
+            <h2 class="news_titre">
+                <img class="img_miniature" title="{{ entity.rubrique.image.alt }}" alt="{{ entity.rubrique.image.alt }}" src="{{ asset( 'uploads/img/' ~  entity.rubrique.image.id ~ '.' ~ 
+                entity.rubrique.image.url) }}" />
+                {{ entity.titre }}
+                <span> {{ entity.commentaires | length }}  commentaires</span>
+            </h2>
+
+            <div class="news_panneau">
+                <img title="{{ entity.image.alt }}" alt="{{ entity.image.alt }}"
+                src="{{ asset( 'uploads/img/' ~  entity.image.id ~ '.' ~ 
+                entity.image.url) }}" style="float:left;" />
+                <div >
+                    <p class="intro">
+                        <span class="intro_contenu">
+                            {% if entity.intro is empty %} {{ entity.contenu | truncate(200, true, '...') }}
+                            {% else %} {{  entity.intro }} {% endif %}
+                        <span>
+                    </p>
+                    <div class="news_contenu">
+                        {{ entity.contenu | parse }}
+                        <hr />
+                        <div class="news_button">
+                           {#} {{ twitterButton( path('news_show',{ 'id': entity.id}), 'lol') | raw}}
+                            {{ faceBookButton() | raw }}
+                             {{ googlePlusButton(path('news_show',{ 'id': entity.id}), 'lol') | raw }}#}
+                            {# génération du bouton commentaire #}
+                            <button class="showTop" value="{{ entity.id }}">Ajouter Commentaire</button>
+                        </div>
+                        <div class="commentaire">
+                            {% for commentaire in entity.commentaires %}
+                                <div class="commentaire_contenu">
+                                    <p>
+                                        Ecrit le : {{ commentaire.date|date('d/m/Y à  H:i') }}<br />
+                                        Pseudo : {{ commentaire.auteur }} 
+                                    </p>
+                                    <p style="margin-left : 30px; ">
+                                        Commentaire : 
+                                        {{ commentaire.contenu }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <span class="newsShow" >Lire la suite...</span>
+                </div>
+                <footer class="news_footer">
+                    <p>
+                        Ecrit le  {{ entity.date|date('d/m/Y à  H:i') }} 
+                        <span class="news_footer_mot_cle">
+                            Mots-Clés : 
+                            {% for motcle in entity.motcles %}
+                                <a href="{{ path('news_by_motcle', {'id': motcle.id}) }}">{{ '#' ~ motcle.nom }}</a>
+                                {{ '  ' }}
+                            {% endfor %}
+                        </span>
+                    </p>
+                </footer>
+            </div>
+        </article>
+    {% endfor %}
