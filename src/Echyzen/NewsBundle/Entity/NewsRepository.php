@@ -12,6 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class NewsRepository extends EntityRepository
 {
+	public function findAll()
+    {
+        return $this
+            ->createQueryBuilder('n')
+            ->select('n,r,c,mc,i, t')
+            ->leftJoin('n.motCles','mc')
+            ->leftJoin('n.rubrique','r')
+            ->leftJoin('r.image','t')
+            ->leftJoin('n.commentaires','c')
+            ->leftJoin('n.image','i')
+            ->orderBy('n.date', 'DESC')
+            ->getQuery()->getResult();
+ 
+    }
+
 	public function getByRubrique($id) {
 		return $this->createQueryBuilder('n')
 			->where('n.rubrique = :id')

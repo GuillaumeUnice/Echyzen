@@ -76,6 +76,7 @@ class News
 
     /**
     * @ORM\OneToMany(targetEntity="Echyzen\NewsBundle\Entity\Commentaire", mappedBy="news", cascade={"persist", "remove"})
+    * @ORM\OrderBy({"date" = "DESC"})
     */
     private $commentaires;
 
