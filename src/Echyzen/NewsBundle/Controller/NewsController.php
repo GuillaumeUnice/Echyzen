@@ -5,16 +5,9 @@ namespace Echyzen\NewsBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Echyzen\NewsBundle\Entity\News;
-use Echyzen\NewsBundle\Form\NewsType;
-
-use Echyzen\NewsBundle\Entity\Image;
-use Echyzen\NewsBundle\Form\ImageType;
-
 use Echyzen\NewsBundle\Entity\Commentaire;
 use Echyzen\NewsBundle\Form\CommentaireType;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 /**
  * News controller.
@@ -34,7 +27,8 @@ class NewsController extends Controller
 
         // obtenir toutes les news du plus récent au plus vieux
         $array['entities'] = $em->getRepository('EchyzenNewsBundle:News')
-            ->findBy(array(), array('date' => 'desc'));
+         ->findAll();
+           // ->findBy(array(), array('date' => 'desc',));
 
         return self::vue($array);
     } // indexAction ()
@@ -95,8 +89,7 @@ class NewsController extends Controller
     /**
     *   Fonction permettant de créer formulaire/entité et persister un commentaire lié a une news
     *   @param $id nombre représentant l'id de la news associé a ce commentaire
-    *   TODO : vérifier le retour plutot faire la méthode comme dans self::vue qui diffère
-    *   selon la requete de type ajax ou non
+    *   TODO : rendre accessible que par ajax?
     *
     */
     public function createCommentaireAction($id) {
@@ -104,6 +97,7 @@ class NewsController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $news = $em->getRepository('EchyzenNewsBundle:News')->find($id);
+
 
         if(!$news) {
 
@@ -125,8 +119,8 @@ class NewsController extends Controller
 
             //récupération et donc hydration du formulaire par le client
             $form->handleRequest($request);
+            
             // vérification de la validité
-
             if($form->isValid()) {
 
                 //ajout du commentaire à la news
@@ -138,15 +132,26 @@ class NewsController extends Controller
                 $em->persist($commentaire);
                 $em->flush();
 
+                $array['commentaires'] = $news->getCommentaires();
+                
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    'Le commentaire a été prit enregistré'
+                    'Le commentaire a été enregistré'
                 );
+
+                $res = array();
+                $res['html'] = $this->renderView('EchyzenNewsBundle:commentaire:show.html.twig', $array);
+                $response = new Response();
+                $response->setContent($res['html']);
+                $response->setStatusCode(200);
+                $response->headers->set('Content-Type', 'text/html');        
+                return $response;
             }
         }
 
         return $this->render('EchyzenNewsBundle:commentaire:create.html.twig', array(
             'form'   => $form->createView(),
+            'id' => $id,
         ));
     } // createCommentaireAction()
 
